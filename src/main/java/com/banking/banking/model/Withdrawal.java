@@ -4,8 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
-@Entity
-public class Deposit {
+public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,7 +13,7 @@ public class Deposit {
     @Temporal(TemporalType.TIMESTAMP)
     private String transaction_date;
     private String status;
-    private Long payee_id;
+    private Long payer_id;
     private String medium;
     private Double amount;
     private String description;
@@ -43,12 +42,12 @@ public class Deposit {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
+    public Long getPayer_id() {
+        return payer_id;
     }
 
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
+    public void setPayer_id(Long payer_id) {
+        this.payer_id = payer_id;
     }
 
     public String getMedium() {
@@ -85,15 +84,16 @@ public class Deposit {
 
     @Override
     public String toString() {
-        return "Deposit{" +
+        return "Withdrawl{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", transaction_date='" + transaction_date + '\'' +
                 ", status='" + status + '\'' +
-                ", payee_id=" + payee_id +
+                ", payer_id=" + payer_id +
                 ", medium='" + medium + '\'' +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 '}';
     }
 }
+

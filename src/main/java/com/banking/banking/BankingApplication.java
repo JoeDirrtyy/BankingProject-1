@@ -11,7 +11,7 @@ public class BankingApplication {
 //git add -A
 // git commit -m("message of what you have done)
 //git push
-
+// Make pull request
 //*ALWAYS SYNC YOUR FORK BEFORE MAKING CHANGES
 
 	}

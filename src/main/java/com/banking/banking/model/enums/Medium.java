@@ -3,7 +3,7 @@ package com.banking.banking.model.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Medium {
-    @JsonProperty("alance")
+    @JsonProperty("Balance")
     BALANCE("Balance"),
     @JsonProperty("Rewards")
     REWARDS("Rewards");

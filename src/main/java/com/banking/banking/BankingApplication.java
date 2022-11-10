@@ -13,6 +13,8 @@ public class BankingApplication {
 //git push
 // Make pull request
 //*ALWAYS SYNC YOUR FORK BEFORE MAKING CHANGES
+// DO GIT PULL AFTER SYNCING FORK
+
 
 	}
 

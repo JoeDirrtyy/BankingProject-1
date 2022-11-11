@@ -6,29 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class DepositController {
-//    @Autowired
-//    private DepositService depositService;
-//
-//
-//    @GetMapping("/accounts/{accountId}/deposits")
-//    public ResponseEntity<Iterable<Deposit>> getAlldeposits() {
-//        return depositService.getAlldeposits();
-//    }
-//
-//    @PostMapping("/accounts/{accountId}/deposits")
-//    public Deposit createDeposit(Deposit deposit) {
-//        return depositService.createDeposit(deposit);
-//    }
-//
-//    @GetMapping("/deposits/{depositId}")
-//    public ResponseEntity<?> getDepositbyId(@PathVariable Long id) {
-//        return depositService.getDepositById(id);
-//    }
-//
-//    @PutMapping("/deposits/{depositId}")
-//    public ResponseEntity<?> updateDeposit(Deposit deposit, Long deposit_id) {
-//        return depositService.updateDeposit(deposit, deposit_id);
-//    }
+    @Autowired
+    private DepositService depositService;
+
+
+
+
+
+    @GetMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<Iterable<Deposit>> getAllDeposits() {
+        return depositService.getAllDeposits();
+    }
+
+    @PostMapping("/accounts/{accountId}/deposits")
+    public void createDeposit(@Valid @RequestBody Deposit deposit) {
+        depositService.createDeposit(deposit);
+    }
+
+    @GetMapping("/deposits/{depositId}")
+    public ResponseEntity<?> getDepositbyId(@PathVariable Long depositId) {
+        return depositService.getDepositById(depositId);
+    }
+
+    @PutMapping("/deposits/{depositId}")
+    public void updateDeposit(@RequestBody Deposit deposit, @PathVariable Long depositId) {
+        depositService.updateDeposit(deposit, depositId);
+    }
+
+    @DeleteMapping("/deposits/{depositId}")
+    public ResponseEntity<?> deleteDepositById(@PathVariable Long depositId) {
+        return depositService.deleteDepositById(depositId);
+    }
+
+
 }

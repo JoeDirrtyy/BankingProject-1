@@ -3,7 +3,7 @@ package com.banking.banking.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-
+@Entity
 public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

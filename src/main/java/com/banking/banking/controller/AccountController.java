@@ -44,15 +44,15 @@ public class AccountController {
         accountService.deleteAccount(Id);
     }
 
-    @GetMapping("/searchaccount")
-    public Iterable<Account> findAccountByName(@RequestParam("query") String query){
-        return accountService.findAccountByName(query);
-    }
-
-    @GetMapping("/account/{accountId}/customer")
-    public Iterable<Account> findByAccountId(@PathVariable Long accountId){
-        return accountService.findByAccountId(accountId);
-    }
+//    @GetMapping("/searchaccount")
+//    public Iterable<Account> findAccountByName(@RequestParam("query") String query){
+//        return accountService.findAccountByName(query);
+//    }
+//
+//    @GetMapping("/account/{accountId}/customer")
+//    public Iterable<Account> findByAccountId(@PathVariable Long accountId){
+//        return accountService.findByAccountId(accountId);
+//    }
 
 
 }

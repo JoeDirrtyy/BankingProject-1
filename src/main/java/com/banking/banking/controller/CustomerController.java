@@ -5,7 +5,10 @@ import com.banking.banking.repository.CustomerRepository;
 import com.banking.banking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class CustomerController {
@@ -13,7 +16,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/customers")
-    public void createCustomer (Customer customer){
+    public void createCustomer (@Valid @RequestBody Customer customer){
         customerService.createCustomer(customer);
     }
 
@@ -23,17 +26,17 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{id}")
-    public ResponseEntity<?> getCustomerById(@PathVariable Long customerId){
-        return customerService.getCustomerById(customerId);
+    public ResponseEntity<?> getCustomerById(@PathVariable Long id){
+        return customerService.getCustomerById(id);
     }
 
-    @PutMapping("/customer/{id}")
-    public void updateCustomer(@RequestBody Customer customer, @PathVariable Long customerId){
-        customerService.updateCustomer(customer, customerId);
+    @PutMapping("/customers/{id}")
+    public void updateCustomer(@RequestBody Customer customer, @PathVariable Long id){
+        customerService.updateCustomer(customer, id);
     }
 
-    @DeleteMapping("/customer/{id}")
-    public ResponseEntity<?> deleteCustomerById(@PathVariable Long customerId){
-        return customerService.deleteCustomerById(customerId);
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<?> deleteCustomerById(@PathVariable Long id){
+        return customerService.deleteCustomerById(id);
     }
 }

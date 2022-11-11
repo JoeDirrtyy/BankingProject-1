@@ -9,8 +9,7 @@ public class Withdrawal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+
     private String transaction_date;
     private String status;
     private Long payer_id;

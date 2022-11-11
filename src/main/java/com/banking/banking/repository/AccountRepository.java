@@ -11,5 +11,5 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     @Query(value = "select * from account where name LIKE concat('%',:query,'%')", nativeQuery = true)
     Iterable<Account> findAccountByName(String query);
 
-    Iterable<Account> findByCustomerId(Long customerId);
+    Iterable<Account> findByAccountId(Long accountId);
 }

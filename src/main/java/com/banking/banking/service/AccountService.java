@@ -45,8 +45,8 @@ public class AccountService {
         return accountRepository.findAccountByName(query);
     }
 
-    public  Iterable<Account> findByCustomerId(Long customerId){
-        return accountRepository.findByCustomerId(customerId);
+    public  Iterable<Account> findByAccountId(Long accountId){
+        return accountRepository.findByAccountId(accountId);
     }
 
 

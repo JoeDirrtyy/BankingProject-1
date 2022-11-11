@@ -51,7 +51,7 @@ public class AccountController {
 
     @GetMapping("/account/{accountId}/customer")
     public Iterable<Account> findByAccountId(@PathVariable Long accountId){
-        return accountService.findByCustomerId(accountId);
+        return accountService.findByAccountId(accountId);
     }
 
 

@@ -41,13 +41,13 @@ public class AccountService {
         });
     }
 
-    public  Iterable<Account> findAccountByName(String query){
-        return accountRepository.findAccountByName(query);
-    }
-
-    public  Iterable<Account> findByAccountId(Long accountId){
-        return accountRepository.findByAccountId(accountId);
-    }
+//    public  Iterable<Account> findAccountByName(String query){
+//        return accountRepository.findAccountByName(query);
+//    }
+//
+//    public  Iterable<Account> findByAccountId(Long accountId){
+//        return accountRepository.findById(accountId);
+//    }
 
 
 }

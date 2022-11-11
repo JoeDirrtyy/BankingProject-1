@@ -17,16 +17,19 @@ public class CustomerController {
 
     @PostMapping("/customers")
     public void createCustomer (@Valid @RequestBody Customer customer){
+
         customerService.createCustomer(customer);
     }
 
     @GetMapping("/customers")
     public ResponseEntity<Iterable<Customer>> getAllCustomers(){
+
         return customerService.getAllCustomers();
     }
 
     @GetMapping("/customers/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long id){
+
         return customerService.getCustomerById(id);
     }
 

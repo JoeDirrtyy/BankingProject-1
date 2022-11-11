@@ -40,8 +40,8 @@ public class CustomerController {
         return customerService.deleteCustomerById(id);
     }
 
-    @GetMapping("accounts/{accountsId}/customers")
-    public Iterable<Customer> getAllCustomerByAccountId(@PathVariable Long accountsId){
-        return customerService.getCustomerByAccountId(accountsId);
+    @GetMapping("account/{accountId}/customers")
+    public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
+        return customerService.getCustomerByAccountId(accountId);
     }
 }

@@ -36,7 +36,11 @@ public class CustomerService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public Iterable<Customer> getCustomerByAccountId(Long accountId){
-        return customerRepository.findCustomerByAccountId(accountId);
-    }
+//    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+//      //  return customerRepository.findCustomerByAccountId(accountId);
+//    }
+public ResponseEntity<?> getCustomerByAccountId(Long accountId){
+    Customer customer = customerRepository.findById(accountId).orElse(null);
+    return new ResponseEntity<>(customer, HttpStatus.OK);
+}
 }

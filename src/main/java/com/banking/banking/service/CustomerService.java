@@ -35,4 +35,8 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    public Iterable<Customer> getCustomerByAccountId(Long accountId){
+        return customerRepository.findCustomerByAccountId(accountId);
+    }
 }

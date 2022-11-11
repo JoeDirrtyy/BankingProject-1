@@ -39,4 +39,9 @@ public class CustomerController {
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id){
         return customerService.deleteCustomerById(id);
     }
+
+    @GetMapping("accounts/{accountsId}/customers")
+    public Iterable<Customer> getAllCustomerByAccountId(@PathVariable Long accountsId){
+        return customerService.getCustomerByAccountId(accountsId);
+    }
 }

@@ -18,13 +18,13 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @GetMapping("/account")
+    @GetMapping("/accounts")
     public ResponseEntity<Iterable<Account>> getAllAccounts(){
         return accountService.getAllAccounts();
     }
 
     @PostMapping("/customers/{customerId}/accounts")
-    public Optional<Account> createAccount(@PathVariable(value = "accountId") Long customerId, @Validated @RequestBody Account account){
+    public Optional<Account> createAccount(@PathVariable(value = "customerId") Long customerId, @Validated @RequestBody Account account){
         return accountService.createAccount(customerId,account);
     }
 
@@ -34,8 +34,8 @@ public class AccountController {
     }
 
 
-    @PutMapping("/accounts/{accountId}")
-    public Optional<Account> updateAccount(@PathVariable (value = "customerId") Long customerId, @RequestBody Account account){
+    @PutMapping("/customers/{customerId}/accounts")
+    public Optional<Account> updateAccount(@PathVariable (value = "customerId") Long customerId, @Validated @RequestBody Account account){
         return accountService.updateAccount(customerId,account);
     }
 

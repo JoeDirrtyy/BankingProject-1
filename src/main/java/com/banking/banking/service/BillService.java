@@ -1,6 +1,7 @@
 package com.banking.banking.service;
 
 import com.banking.banking.model.Bill;
+import com.banking.banking.model.Deposit;
 import com.banking.banking.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,16 @@ public class BillService {
     @Autowired
     private BillRepository billRepository;
 
+    public ResponseEntity<Iterable<Bill>> getAllBills() {
+        Iterable<Bill> bills = billRepository.findAll();
+        return new ResponseEntity<>(bills, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getBillById(Long billId) {
+        Bill bill = billRepository.findById(billId).orElse(null);
+        return new ResponseEntity<>(bill, HttpStatus.OK);
+    }
+
     /*public void verifyBill(Long billId) {
         Bill bill= BillRepository.findById(billId).orElse(null);
     }*/
@@ -19,7 +30,7 @@ public class BillService {
         bill=billRepository.save(bill);
     }
     public void updateBill(Bill bill, Long billId) {
-       billRepository.save(bill);
+        billRepository.save(bill);
     }
 
     public ResponseEntity<?> deleteBill(Long billId) {
@@ -27,3 +38,4 @@ public class BillService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+

@@ -1,9 +1,13 @@
 package com.banking.banking.service;
 
+import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Customer;
 import com.banking.banking.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,11 +15,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
     @Autowired
     private CustomerRepository customerRepository;
 
-    public void createCustomer (Customer customer){
-        customerRepository.save(customer);
+    public ResponseEntity<?> createCustomer (Customer customer){
+        try {
+            Customer result = customerRepository.save(customer);
+            return ResponseHandler.generateResponse( HttpStatus.OK, "Successfully added data!", result);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse( HttpStatus.MULTI_STATUS,e.getMessage(), null);
+        }
+
     }
 
     public ResponseEntity<Iterable<Customer>> getAllCustomers(){

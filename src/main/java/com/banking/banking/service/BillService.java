@@ -28,6 +28,9 @@ public class BillService {
     }*/
     public void createBill(Bill bill) {
         bill=billRepository.save(bill);
+        if (bill.getAccount_id() == null){
+
+        }
     }
     public void updateBill(Bill bill, Long billId) {
         billRepository.save(bill);

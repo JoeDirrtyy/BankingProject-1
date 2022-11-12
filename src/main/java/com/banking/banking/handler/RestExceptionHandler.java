@@ -17,12 +17,12 @@ import java.util.Date;
 @ControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleResourceNotFoundException(Exception e, HttpServletRequest request) {
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request) {
 
         ErrorDetail errorDetail = new ErrorDetail();
 
         errorDetail.setCode(HttpStatus.NOT_FOUND.value());
-        errorDetail.setMessage(e.getMessage());
+        errorDetail.setMessage(rnfe.getMessage());
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }

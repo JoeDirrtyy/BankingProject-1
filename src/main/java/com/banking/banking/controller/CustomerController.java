@@ -16,8 +16,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/customers")
-    public void createCustomer (@Valid @RequestBody Customer customer){
-        customerService.createCustomer(customer);
+    public void createCustomer (@Valid @RequestBody Customer customers){
+        customerService.createCustomer(customers);
     }
 
     @GetMapping("/customers")
@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/{id}")
-    public ResponseEntity<?> getCustomerById(@PathVariable Long id){
+    public ResponseEntity<?> getCustomerById(@PathVariable Long id) throws Exception {
         return customerService.getCustomerById(id);
     }
 

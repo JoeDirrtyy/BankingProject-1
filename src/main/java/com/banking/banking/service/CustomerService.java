@@ -1,5 +1,6 @@
 package com.banking.banking.service;
 
+import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Customer;
 import com.banking.banking.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,11 @@ public class CustomerService {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getCustomerById(Long customerId){
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+    public ResponseEntity<?> getCustomerById(Long depositId) throws ResourceNotFoundException{
+        Customer customer = customerRepository.findById(depositId).orElse(null);
+        if (customer == null){
+            throw new ResourceNotFoundException("Error fetching Customer");
+        }
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 

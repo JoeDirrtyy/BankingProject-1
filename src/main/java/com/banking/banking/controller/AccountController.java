@@ -40,8 +40,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/accounts/{accountId}")
-    public void deleteAccount(@PathVariable Long Id) {
-        accountService.deleteAccount(Id);
+    public void deleteAccount(@PathVariable Long accountId) {
+        accountService.deleteAccount(accountId);
     }
 
 //    @GetMapping("/searchaccount")

@@ -1,6 +1,7 @@
 package com.banking.banking.model;
 import com.banking.banking.model.enums.Type;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.*;
 

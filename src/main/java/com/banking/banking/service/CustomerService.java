@@ -11,7 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Service
@@ -23,12 +25,16 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public ResponseEntity<?> createCustomer (Customer customer){
-        Customer result = customerRepository.save(customer);
-        if (result == null){
-            throw new ResourceNotFoundException("error fetching customer");
-        }
-        return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
+//        Customer existingCustomer = customerRepository.findById(customer.getId()).orElse(null);
+//        if (existingCustomer == null){
+//            throw new ResourceNotFoundException("error fetching customer");
+//        }else {
+            Customer p = customerRepository.save(customer);
+//if (p.setAddress(null);
+
+          return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, p);
     }
+
 //Shawn
     //Throat punch
     public ResponseEntity<?> getAllCustomers(){
@@ -48,18 +54,26 @@ public class CustomerService {
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId){
-        Customer c = (customerRepository.save(customer));
-        if (customerId == null){
+        Customer c = customerRepository.findById(customerId).orElse(null);
+        if (c == null){
             throw new ResourceNotFoundException("error updating account");
+        }else {
+            customerRepository.save(customer);
         }
         return ResponseHandler.generateResponse("Updated", HttpStatus.OK, c);
     }
     //broken
 
-    public ResponseEntity<?> deleteCustomerById(Long customerId){
-        customerRepository.deleteById(customerId);
-        return ResponseHandler.generateResponseNoObj("Customer deleted", HttpStatus.OK);
-    }
+    public ResponseEntity<?> deleteCustomerById(Long customerId) {
+        Customer c = customerRepository.findById(customerId).orElse(null);
+        if (c == null) {
+            throw new ResourceNotFoundException("error deleting account");
+        }else {
+            customerRepository.deleteById(customerId);
+        }
+            return ResponseHandler.generateResponseNoObj("Customer deleted", HttpStatus.OK);
+        }
+
 
     public ResponseEntity<?> getCustomerByAccountId(Long accountId){
         Customer customer = customerRepository.findById(accountId).orElse(null);

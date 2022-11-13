@@ -1,12 +1,17 @@
 package com.banking.banking.service;
 
+import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
+import com.banking.banking.model.Customer;
+import com.banking.banking.model.Deposit;
 import com.banking.banking.model.Withdrawal;
 import com.banking.banking.repository.WithdrawalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WithdrawalService {
@@ -19,32 +24,40 @@ public class WithdrawalService {
         withdrawalRepository.save(withdrawal);
     }
 
-    public ResponseEntity<Iterable<Withdrawal>> getAllWithdrawals() {
-        Iterable<Withdrawal> withdrawals = withdrawalRepository.findAll();
-        return new ResponseEntity<>(withdrawals, HttpStatus.OK);
+    public ResponseEntity<?> getAllWithdrawals() {
+        List<Withdrawal> withdrawals = (List<Withdrawal>) withdrawalRepository.findAll();
+        if(withdrawals.isEmpty()){
+            throw new ResourceNotFoundException("error fetching customers");
+        }
+        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, withdrawals);
     }
 
-    public ResponseEntity<?> getWithdrawalById(Long withdrawalId) throws ResourceNotFoundException {
+    public ResponseEntity<?> getWithdrawalById(Long withdrawalId) {
         Withdrawal withdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);
         if (withdrawal == null){
             throw new ResourceNotFoundException("Error getting a withdrawal");
         }
-        return new ResponseEntity<>(withdrawal, HttpStatus.OK);
+        return ResponseHandler.generateResponse("Successfully retrieved withdrawal data!", HttpStatus.OK, withdrawal);
     }
 
-    public void updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) throws ResourceNotFoundException{
-        withdrawal = withdrawalRepository.save(withdrawal);
-        if (withdrawalId == null){
-            throw new ResourceNotFoundException("Error updating withdrawal");
+    public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) throws ResourceNotFoundException{
+        Withdrawal c = withdrawalRepository.findById(withdrawalId).orElse(null);
+        if (c == null){
+            throw new ResourceNotFoundException("error updating deposit");
+        }else {
+            withdrawalRepository.save(withdrawal);
         }
+        return ResponseHandler.generateResponse("Updated", HttpStatus.OK, c);
     }
 
     public ResponseEntity<?> deleteWithdrawalById(Long withdrawalId) {
-        if (withdrawalRepository.findById(withdrawalId).isEmpty()){
-            throw new ResourceNotFoundException("Error deleting withdrawal");
+        Withdrawal withdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);
+        if (withdrawal == null) {
+            throw new ResourceNotFoundException("error deleting withdrawal");
+        }else {
+            withdrawalRepository.deleteById(withdrawalId);
         }
-        withdrawalRepository.deleteById(withdrawalId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseHandler.generateResponseNoObj("Withdrawal deleted", HttpStatus.OK);
     }
 
 

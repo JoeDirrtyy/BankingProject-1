@@ -17,7 +17,7 @@ public class WithdrawalController {
 
 
     @GetMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<Iterable<Withdrawal>> getAllWithdrawals() {
+    public ResponseEntity<?> getAllWithdrawals() {
         return withdrawalService.getAllWithdrawals();
     }
 
@@ -32,8 +32,8 @@ public class WithdrawalController {
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
-    public void updateWithdrawal(@RequestBody Withdrawal withdrawal, @PathVariable Long withdrawalId) {
-        withdrawalService.updateWithdrawal(withdrawal, withdrawalId);
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal withdrawal, @PathVariable Long withdrawalId) {
+       return withdrawalService.updateWithdrawal(withdrawal, withdrawalId);
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")

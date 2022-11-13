@@ -1,6 +1,8 @@
 package com.banking.banking.service;
 
+import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Account;
+import com.banking.banking.model.Customer;
 import com.banking.banking.repository.AccountRepository;
 import com.banking.banking.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,13 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Optional<Account> createAccount(Long customerId, Account account) {
+    public Account createAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
             return accountRepository.save(account);
-        });
+
+        }).orElseThrow(() -> new ResourceNotFoundException("Customer id doesn't exist"));
+
     }
 
     public void deleteAccount(Long id) {

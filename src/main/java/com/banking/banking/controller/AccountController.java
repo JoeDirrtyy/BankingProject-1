@@ -24,7 +24,7 @@ public class AccountController {
     }
 
     @PostMapping("/customers/{customerId}/accounts")
-    public Optional<Account> createAccount(@PathVariable(value = "customerId") Long customerId, @Validated @RequestBody Account account){
+    public Account createAccount(@PathVariable(value = "customerId") Long customerId, @Validated @RequestBody Account account){
         return accountService.createAccount(customerId,account);
     }
 

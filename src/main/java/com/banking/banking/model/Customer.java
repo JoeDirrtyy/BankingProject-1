@@ -1,6 +1,7 @@
 package com.banking.banking.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -9,7 +10,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+@NotNull(message = "Customer needs first name")
     private String first_name;
 
     private String last_name;

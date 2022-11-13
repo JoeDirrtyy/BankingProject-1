@@ -1,15 +1,16 @@
 package com.banking.banking.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Type {
 
 @JsonProperty("savings")
-    SAVINGS,
+    SAVINGS("Savings"),
     @JsonProperty("checking")
-    CHECKING,
+    CHECKING("Checking"),
     @JsonProperty("credit")
-    CREDIT,
+    CREDIT("Credit"),
     @JsonProperty("p2p")
     P2P("P2p"),
     @JsonProperty("deposit")

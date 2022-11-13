@@ -19,27 +19,27 @@ public class CustomerController {
 
     }
 
-    @GetMapping("/customers")
-    public ResponseEntity<Iterable<Customer>> getAllCustomers(){
+    @GetMapping(value = "/customers")
+    public ResponseEntity<?> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/customers/{id}")
+    @GetMapping(value = "/customers/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long id)  {
         return customerService.getCustomerById(id);
     }
 
-    @PutMapping("/customers/{id}")
-    public void updateCustomer(@RequestBody Customer customer, @PathVariable Long id){
-        customerService.updateCustomer(customer, id);
+    @PutMapping(value = "/customers/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable Long id){
+        return customerService.updateCustomer(customer, id);
     }
 
-    @DeleteMapping("/customers/{id}")
+    @DeleteMapping(value = "/customers/{id}")
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id){
         return customerService.deleteCustomerById(id);
     }
 
-    @GetMapping("account/{accountId}/customers")
+    @GetMapping(value = "account/{accountId}/customers")
     public ResponseEntity<?> getCustomerByAccountId(@PathVariable Long accountId){
         return customerService.getCustomerByAccountId(accountId);
     }

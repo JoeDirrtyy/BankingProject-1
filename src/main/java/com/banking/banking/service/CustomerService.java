@@ -53,6 +53,7 @@ public class CustomerService {
         }
             return ResponseHandler.generateResponse("Updated", HttpStatus.OK, c);
     }
+    //broken
 
     public ResponseEntity<?> deleteCustomerById(Long customerId){
             customerRepository.deleteById(customerId);

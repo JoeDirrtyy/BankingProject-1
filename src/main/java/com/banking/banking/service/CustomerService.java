@@ -30,6 +30,7 @@ public class CustomerService {
         return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
     }
 //Shawn
+    //Throat punch
     public ResponseEntity<?> getAllCustomers(){
         List<Customer> customers = (List<Customer>) customerRepository.findAll();
         if(customers.isEmpty()){

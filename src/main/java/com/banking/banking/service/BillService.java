@@ -50,8 +50,13 @@ public class BillService {
         return ResponseHandler.generateResponse("Successfully retrieved update data!", HttpStatus.OK, billc);
     }
     public ResponseEntity<?> deleteBill(Long billId) {
-        billRepository.deleteById(billId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Bill c = billRepository.findById(billId).orElse(null);
+        if (c == null) {
+            throw new ResourceNotFoundException("error deleting bill");
+        }else {
+            billRepository.deleteById(billId);
+        }
+        return ResponseHandler.generateResponseNoObj("bill deleted", HttpStatus.OK);
     }
 
 

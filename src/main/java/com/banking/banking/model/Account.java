@@ -1,7 +1,5 @@
 package com.banking.banking.model;
-import com.banking.banking.model.enums.Type;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.banking.banking.model.enums.AccountType;
 
 import javax.persistence.*;
 
@@ -11,8 +9,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Type type;
+    private AccountType accountType;
 
     private String nickname;
 
@@ -26,12 +23,12 @@ public class Account {
     private Customer customer;
 
 
-    public Type getType() {
-        return type;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public String getNickname() {
@@ -78,7 +75,7 @@ public class Account {
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", type=" + type +
+                ", accountType=" + accountType +
                 ", nickname='" + nickname + '\'' +
                 ", rewards=" + rewards +
                 ", balance=" + balance +

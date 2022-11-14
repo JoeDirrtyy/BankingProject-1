@@ -7,17 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(value = "/customers")
-    public ResponseEntity<?> createCustomer ( @Valid @RequestBody Customer customers){
-        return customerService.createCustomer(customers);
-
+    @PostMapping("/customers")
+    public ResponseEntity<?>createCustomer(@RequestBody  Customer customer) throws Exception {
+        return customerService.createCustomer(customer);
     }
+
 
     @GetMapping(value = "/customers")
     public ResponseEntity<?> getAllCustomers(){

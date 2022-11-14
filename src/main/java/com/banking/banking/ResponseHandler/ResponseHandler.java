@@ -2,6 +2,8 @@ package com.banking.banking.ResponseHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +28,8 @@ public class ResponseHandler {
         map.put("message", message);
         return new ResponseEntity<Object>(map, code);
     }
-    }
+
+}
+
+
 

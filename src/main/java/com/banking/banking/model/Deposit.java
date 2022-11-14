@@ -1,5 +1,8 @@
 package com.banking.banking.model;
 
+import com.banking.banking.model.enums.Medium;
+import com.banking.banking.model.enums.Status;
+import com.banking.banking.model.enums.TransferType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,21 +12,21 @@ public class Deposit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
+    private TransferType transferType;
 
     private String transaction_date;
-    private String status;
+    private Status status;
     private Long payee_id;
-    private String medium;
+    private Medium medium;
     private Double amount;
     private String description;
 
-    public String getType() {
-        return type;
+    public TransferType getTransferType() {
+        return transferType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTransferType(TransferType transferType) {
+        this.transferType = transferType;
     }
 
     public String getTransaction_date() {
@@ -34,12 +37,20 @@ public class Deposit {
         this.transaction_date = transaction_date;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
     }
 
     public Long getPayee_id() {
@@ -50,13 +61,7 @@ public class Deposit {
         this.payee_id = payee_id;
     }
 
-    public String getMedium() {
-        return medium;
-    }
 
-    public void setMedium(String medium) {
-        this.medium = medium;
-    }
 
     public Double getAmount() {
         return amount;
@@ -86,7 +91,7 @@ public class Deposit {
     public String toString() {
         return "Deposit{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", transferType='" + transferType + '\'' +
                 ", transaction_date='" + transaction_date + '\'' +
                 ", status='" + status + '\'' +
                 ", payee_id=" + payee_id +

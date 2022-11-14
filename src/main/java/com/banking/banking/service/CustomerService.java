@@ -7,13 +7,10 @@ import com.banking.banking.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -24,16 +21,19 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ResponseEntity<?> createCustomer (Customer customer){
-//        Customer existingCustomer = customerRepository.findById(customer.getId()).orElse(null);
-//        if (existingCustomer == null){
-//            throw new ResourceNotFoundException("error fetching customer");
-//        }else {
-            Customer p = customerRepository.save(customer);
-//if (p.setAddress(null);
+    public ResponseEntity<?> createCustomer (Customer customer) {
+        Customer customer1 = customerRepository.save(customer);
+        if (customer1.getAddress() == null) {
+            throw new ResourceNotFoundException("er");
+        } else if (customer1.getFirst_name() == null) {
+            throw new ResourceNotFoundException("er");
+        } else if (customer1.getLast_name() == null) {
+            throw new ResourceNotFoundException("er");
+        }
+        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, customer1);
+        }
 
-          return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, p);
-    }
+
 
 //Shawn
     //Throat punch

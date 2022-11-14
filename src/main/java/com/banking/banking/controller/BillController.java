@@ -26,11 +26,11 @@ public class BillController {
     }
 
     @GetMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<Iterable<Bill>> getAllBillForAccount() {
+    public ResponseEntity<?> getAllBillForAccount() {
         return billService.getAllBills();
     }
     @GetMapping("/customers/{customerId}/bills")
-    public ResponseEntity<Iterable<Bill>> getAllBillForCustomer(){
+    public ResponseEntity<?> getAllBillForCustomer(){
         return billService.getAllBills();
     }
 
@@ -40,8 +40,8 @@ public class BillController {
     }
 
     @PutMapping("/bills/{billId}")
-    public void updateBill(@RequestBody Bill bill, @PathVariable Long billId) {
-        billService.updateBill(bill, billId);
+    public ResponseEntity<?> updateBill(@RequestBody Bill bill, @PathVariable Long billId) {
+       return billService.updateBill(bill, billId);
     }
 
     @DeleteMapping("/bills/{billId}")

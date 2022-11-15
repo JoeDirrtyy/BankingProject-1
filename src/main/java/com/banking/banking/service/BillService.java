@@ -41,21 +41,26 @@ public class BillService {
     /*public void verifyBill(Long billId) {
         Bill bill= BillRepository.findById(billId).orElse(null);
     }*/
-    public ResponseEntity<?> createBill(Bill bill, Long accountId) {
-        Account account = accountRepository.findById(accountId).orElse(null);
-        if (account == null){
-            throw new ResourceNotFoundException("Create Bill not found.");
-        }else{
-            bill=billRepository.save(bill);
-        }
+    public ResponseEntity<?> createBill(Long accountId, Bill bill) {
+        accountRepository.findById(accountId).map(account -> {
+            bill.setAccount(account);
+            return billRepository.save(bill);
+        }).orElseThrow(() -> new ResourceNotFoundException("couldn't create bill"));
         return ResponseHandler.generateResponse("Here is your bill", HttpStatus.OK, bill);
     }
-    public ResponseEntity<?> updateBill(Bill bill, Long billId) {
-        Bill billc = billRepository.findById(billId).orElse(null);
-        if (billc == null) {
-            throw new ResourceNotFoundException("Update Bill not found.");
-        }else billRepository.save(bill);
-        return ResponseHandler.generateResponse("Successfully retrieved update data!", HttpStatus.OK, billc);
+    public ResponseEntity<?> updateBill(Bill bill, Long accountId) {
+//        Bill billU = billRepository.findById(billId).orElse(null);
+//        if(billU == null){
+//            throw new ResourceNotFoundException("Couldn't update bill");
+//        }else{
+//            billRepository.save(bill);
+//        }
+//        return ResponseHandler.generateResponseNoObj("Bill updated", HttpStatus.OK);
+        accountRepository.findById(accountId).map(account -> {
+            bill.setAccount(account);
+            return billRepository.save(bill);
+        }).orElseThrow(() -> new ResourceNotFoundException("couldn't update bill"));
+        return ResponseHandler.generateResponseNoObj("Here is your bill", HttpStatus.OK);
     }
     public ResponseEntity<?> deleteBill(Long billId) {
         Bill c = billRepository.findById(billId).orElse(null);

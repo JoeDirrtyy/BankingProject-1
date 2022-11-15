@@ -35,13 +35,13 @@ public class BillController {
     }
 
     @PostMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<?> createBill(@Valid @RequestBody Bill bills, @PathVariable Long accountId) {
-        return billService.createBill(bills, accountId);
+    public ResponseEntity<?> createBill(@PathVariable Long accountId, @Valid @RequestBody Bill bills) {
+        return billService.createBill(accountId, bills);
     }
 
-    @PutMapping("/bills/{billId}")
-    public ResponseEntity<?> updateBill(@RequestBody Bill bill, @PathVariable Long billId) {
-       return billService.updateBill(bill, billId);
+    @PutMapping("/accounts/{accountId}/bills")
+    public ResponseEntity<?> updateBill(@RequestBody Bill bills, @PathVariable Long accountId) {
+       return billService.updateBill(bills, accountId);
     }
 
     @DeleteMapping("/bills/{billId}")

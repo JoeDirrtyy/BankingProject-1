@@ -94,11 +94,11 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public Account getAccount_id() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount_id(Account account_id) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 

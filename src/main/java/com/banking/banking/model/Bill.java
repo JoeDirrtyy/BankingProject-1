@@ -1,5 +1,7 @@
 package com.banking.banking.model;
 
+import com.banking.banking.model.enums.Status;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +10,7 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
+    private Status status;
     private String payee;
     private String nickname;
     private String creation_date;
@@ -16,7 +18,9 @@ public class Bill {
     private Integer recurring_date;
     private String upcoming_payment_date;
     private Double payment_amount;
-    private String account_id;
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 
     public Long getId() {
         return id;
@@ -26,11 +30,11 @@ public class Bill {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -90,12 +94,12 @@ public class Bill {
         this.payment_amount = payment_amount;
     }
 
-    public String getAccount_id() {
-        return account_id;
+    public Account getAccount_id() {
+        return account;
     }
 
-    public void setAccount_id(String account_id) {
-        this.account_id = account_id;
+    public void setAccount_id(Account account_id) {
+        this.account = account;
     }
 
     @Override
@@ -110,7 +114,7 @@ public class Bill {
                 ", recurring_date=" + recurring_date +
                 ", upcoming_payment_date='" + upcoming_payment_date + '\'' +
                 ", payment_amount=" + payment_amount +
-                ", account_id='" + account_id + '\'' +
+                ", account_id='" + account + '\'' +
                 '}';
     }
 }

@@ -40,8 +40,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/accounts/{accountId}")
-    public void deleteAccount(@PathVariable Long accountId) {
-        accountService.deleteAccount(accountId);
+    public ResponseEntity<?> deleteAccount(@PathVariable Long accountId) {
+        return accountService.deleteAccount(accountId);
     }
 
 //    @GetMapping("/searchaccount")

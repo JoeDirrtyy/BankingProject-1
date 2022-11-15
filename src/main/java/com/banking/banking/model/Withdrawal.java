@@ -1,5 +1,8 @@
 package com.banking.banking.model;
 
+import com.banking.banking.model.enums.Medium;
+import com.banking.banking.model.enums.Status;
+import com.banking.banking.model.enums.TransferType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,21 +11,23 @@ public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
+    private TransferType transferType;
 
     private String transaction_date;
-    private String status;
-    private Long payer_id;
-    private String medium;
+    private Status status;
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account payer_id;
+    private Medium medium;
     private Double amount;
     private String description;
 
-    public String getType() {
-        return type;
+    public TransferType getTransferType() {
+        return transferType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTransferType(TransferType transferType) {
+        this.transferType = transferType;
     }
 
     public String getTransaction_date() {
@@ -33,27 +38,27 @@ public class Withdrawal {
         this.transaction_date = transaction_date;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public Long getPayer_id() {
+    public Account getPayer_id() {
         return payer_id;
     }
 
-    public void setPayer_id(Long payer_id) {
+    public void setPayer_id(Account payer_id) {
         this.payer_id = payer_id;
     }
 
-    public String getMedium() {
+    public Medium getMedium() {
         return medium;
     }
 
-    public void setMedium(String medium) {
+    public void setMedium(Medium medium) {
         this.medium = medium;
     }
 
@@ -83,9 +88,9 @@ public class Withdrawal {
 
     @Override
     public String toString() {
-        return "Withdrawl{" +
+        return "Withdrawal{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", type='" + transferType + '\'' +
                 ", transaction_date='" + transaction_date + '\'' +
                 ", status='" + status + '\'' +
                 ", payer_id=" + payer_id +

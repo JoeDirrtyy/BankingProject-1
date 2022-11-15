@@ -16,7 +16,9 @@ public class Deposit {
 
     private String transaction_date;
     private Status status;
-    private Long payee_id;
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account payee_id;
     private Medium medium;
     private Double amount;
     private String description;
@@ -53,11 +55,11 @@ public class Deposit {
         this.medium = medium;
     }
 
-    public Long getPayee_id() {
+    public Account getPayee_id() {
         return payee_id;
     }
 
-    public void setPayee_id(Long payee_id) {
+    public void setPayee_id(Account payee_id) {
         this.payee_id = payee_id;
     }
 

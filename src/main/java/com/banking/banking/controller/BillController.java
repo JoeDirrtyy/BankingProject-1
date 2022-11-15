@@ -35,8 +35,8 @@ public class BillController {
     }
 
     @PostMapping("/accounts/{accountId}/bills")
-    public void createBill(@Valid @RequestBody Bill bill) {
-        billService.createBill(bill);
+    public ResponseEntity<?> createBill(@Valid @RequestBody Bill bills, @PathVariable Long accountId) {
+        return billService.createBill(bills, accountId);
     }
 
     @PutMapping("/bills/{billId}")

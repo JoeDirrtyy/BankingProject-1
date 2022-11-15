@@ -26,9 +26,9 @@ public class WithdrawalService {
     
 
 
-    public void updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
+    public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
 
-        Account account = accountService.getAccountByAccountId(withdrawal.getPayer_id()).orElse(null);
+        Account account = accountService.getAccountByAccountId(withdrawal.getPayer_id().getId()).orElse(null);
         Double oldWithdrawalAmount = withdrawalRepository.findById(withdrawalId).get().getAmount();
         Double accountBalance = account.getBalance();
         Double oldBalance = accountBalance + oldWithdrawalAmount;
@@ -37,7 +37,7 @@ public class WithdrawalService {
         Double transaction = oldBalance - depositAmount;
         account.setBalance(transaction);
         withdrawalRepository.save(withdrawal);
-
+        return ResponseHandler.generateResponse("Successfully updated withdrawals", HttpStatus.OK, withdrawal);
     }
 
     public ResponseEntity<?> getAllWithdrawals() {
@@ -56,7 +56,7 @@ public class WithdrawalService {
         return ResponseHandler.generateResponse("Successfully retrieved withdrawal data!", HttpStatus.OK, withdrawal);
     }
 
-    public ResponseEntity<?> createWithdrawall(Withdrawal withdrawal, Long accountId) {
+    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long accountId) {
         Optional<Account> account = accountService.getAccountByAccountId(accountId);
 
         Double accountBalance = account.get().getBalance();

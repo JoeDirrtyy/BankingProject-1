@@ -67,7 +67,7 @@ public class DepositService {
     }
 
     public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
-        Account account = accountService.getAccountByAccountId(deposit.getPayee_id()).orElse(null);
+        Account account = accountService.getAccountByAccountId(deposit.getPayee_id().getId()).orElse(null);
 
         Double oldDepositAmount = depositRepository.findById(depositId).get().getAmount();
 

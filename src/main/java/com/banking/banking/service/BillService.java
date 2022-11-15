@@ -2,8 +2,10 @@ package com.banking.banking.service;
 
 import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
+import com.banking.banking.model.Account;
 import com.banking.banking.model.Bill;
 import com.banking.banking.model.Deposit;
+import com.banking.banking.repository.AccountRepository;
 import com.banking.banking.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,9 @@ import java.util.List;
 public class BillService {
     @Autowired
     private BillRepository billRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     public ResponseEntity<?> getAllBills() {
         List<Bill> bills = (List<Bill>) billRepository.findAll();
@@ -36,11 +41,14 @@ public class BillService {
     /*public void verifyBill(Long billId) {
         Bill bill= BillRepository.findById(billId).orElse(null);
     }*/
-    public void createBill(Bill bill) {
-        bill=billRepository.save(bill);
-        if (bill.getAccount_id() == null){
+    public ResponseEntity<?> createBill(Bill bill, Long accountId) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        if (account == null){
             throw new ResourceNotFoundException("Create Bill not found.");
+        }else{
+            bill=billRepository.save(bill);
         }
+        return ResponseHandler.generateResponse("Here is your bill", HttpStatus.OK, bill);
     }
     public ResponseEntity<?> updateBill(Bill bill, Long billId) {
         Bill billc = billRepository.findById(billId).orElse(null);

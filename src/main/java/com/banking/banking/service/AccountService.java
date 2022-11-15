@@ -3,8 +3,6 @@ package com.banking.banking.service;
 import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Account;
-import com.banking.banking.model.Customer;
-import com.banking.banking.model.Deposit;
 import com.banking.banking.repository.AccountRepository;
 import com.banking.banking.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+
     public Account createAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
@@ -30,6 +29,11 @@ public class AccountService {
 
         }).orElseThrow(() -> new ResourceNotFoundException("Customer ID not found"));
 
+    }
+
+    public Optional<Account> getAccountByAccountId(Long accountId){
+
+        return accountRepository.findById(accountId);
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId){

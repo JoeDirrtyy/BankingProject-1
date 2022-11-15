@@ -22,8 +22,8 @@ public class WithdrawalController {
     }
 
     @PostMapping("/accounts/{accountId}/withdrawals")
-    public void createWithdrawal(@Valid @RequestBody Withdrawal withdrawal) {
-        withdrawalService.createWithdrawal(withdrawal);
+    public void createWithdrawal(@Valid @RequestBody Withdrawal withdrawal, Long accountId) {
+        withdrawalService.createWithdrawal(withdrawal, accountId);
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")

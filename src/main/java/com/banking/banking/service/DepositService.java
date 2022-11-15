@@ -2,6 +2,7 @@ package com.banking.banking.service;
 
 import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
+import com.banking.banking.model.Account;
 import com.banking.banking.model.Customer;
 import com.banking.banking.model.Deposit;
 import com.banking.banking.repository.*;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -21,15 +23,31 @@ public class DepositService {
     @Autowired
     private DepositRepository depositRepository;
 
+    @Autowired
+    private AccountService accountService;
+
+
+
     static Logger logger = LoggerFactory.getLogger(DepositService.class);
 
 
 
-    public void createDeposit(Deposit deposit) throws ResourceNotFoundException{
+    public ResponseEntity<?> createDeposit(Deposit deposit, Long accountId) {
+        Optional<Account> account = accountService.getAccountByAccountId(accountId);
+
+        Double accountBalance = account.get().getBalance();
+        Double depositAmount = deposit.getAmount();
+
+        Double transaction = depositAmount + accountBalance;
+
+        account.get().setBalance(transaction);
+
         depositRepository.save(deposit);
         if (deposit.getPayee_id() == null){
             throw new ResourceNotFoundException( "Error creating Deposit");
         }
+        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+
     }
 
     public ResponseEntity<?> getAllDeposits(){
@@ -49,13 +67,23 @@ public class DepositService {
     }
 
     public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
-        Deposit c = depositRepository.findById(depositId).orElse(null);
-        if (c == null){
-            throw new ResourceNotFoundException("error updating deposit");
-        }else {
-            depositRepository.save(deposit);
-        }
-       return ResponseHandler.generateResponse("Updated", HttpStatus.OK, c);
+        Account account = accountService.getAccountByAccountId(deposit.getPayee_id()).orElse(null);
+
+        Double oldDepositAmount = depositRepository.findById(depositId).get().getAmount();
+
+        Double accountBalance = account.getBalance();
+
+        Double oldBalance = accountBalance - oldDepositAmount;
+        account.setBalance(oldBalance);
+
+        Double depositAmount = deposit.getAmount();
+
+        Double transaction = oldBalance + depositAmount;
+        account.setBalance(transaction);
+
+        depositRepository.save(deposit);
+
+        return ResponseHandler.generateResponse("Updated", HttpStatus.OK, account);
     }
 
     public ResponseEntity<?> deleteDepositById(Long depositId)  {

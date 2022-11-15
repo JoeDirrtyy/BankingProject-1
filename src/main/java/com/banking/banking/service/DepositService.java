@@ -26,6 +26,9 @@ public class DepositService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
 
 
     static Logger logger = LoggerFactory.getLogger(DepositService.class);
@@ -33,24 +36,27 @@ public class DepositService {
 
 
     public ResponseEntity<?> createDeposit(Deposit deposit, Long accountId) {
-        Optional<Account> account = accountService.getAccountByAccountId(accountId);
-
-        Double accountBalance = account.get().getBalance();
-        Double depositAmount = deposit.getAmount();
-
-        Double transaction = depositAmount + accountBalance;
-
-        account.get().setBalance(transaction);
-
-        depositRepository.save(deposit);
-        if (deposit.getPayee_id() == null){
+        Account account = accountRepository.findById(accountId).orElse(null);
+        deposit.setPayee_id(account);
+        if (account == null){
             throw new ResourceNotFoundException( "Error creating Deposit");
-        }
-        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+        } else if (deposit.getAmount() < 0) {
+            throw new ResourceNotFoundException("Cannot make negative deposit");
+        } else{
+            Double accountBalance = account.getBalance();
+            Double depositAmount = deposit.getAmount();
 
+            Double transaction = depositAmount + accountBalance;
+
+            account.setBalance(transaction);
+
+
+            depositRepository.save(deposit);
+            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+        }
     }
 
-    public ResponseEntity<?> getAllDeposits(){
+    public ResponseEntity<?> getAllDepositsByAccountId(){
         List<Deposit> deposits = (List<Deposit>) depositRepository.findAll();
         if(deposits.isEmpty()){
             throw new ResourceNotFoundException("error fetching deposits");

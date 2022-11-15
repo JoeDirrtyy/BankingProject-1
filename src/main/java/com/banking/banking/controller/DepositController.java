@@ -21,13 +21,13 @@ public class DepositController {
 //        return depositService.getAllDeposits();
 //    }
 
-    @PostMapping("/accounts/{accountId}/deposits")
-    public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposit deposit, Long accountId) {
-        return depositService.createDeposit(deposit, accountId);
+    @PostMapping("/accounts/{payeeId}/deposits")
+    public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposit deposits, @PathVariable Long payeeId) {
+        return depositService.createDeposit(deposits, payeeId);
     }
 
     @GetMapping("/deposits/{depositId}")
-    public ResponseEntity<?> getDepositbyId(@PathVariable Long depositId) {
+    public ResponseEntity<?> getDepositById(@PathVariable Long depositId) {
         return depositService.getDepositById(depositId);
     }
 
@@ -41,8 +41,8 @@ public class DepositController {
         return depositService.deleteDepositById(depositId);
     }
 @GetMapping("/accounts/{accountId}/deposits")
-    public ResponseEntity<?> getAllDeposits() {
-        return depositService.getAllDeposits();
+    public ResponseEntity<?> getAllDepositsByAccountId() {
+        return depositService.getAllDepositsByAccountId();
 
 
     }

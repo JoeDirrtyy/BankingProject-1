@@ -42,14 +42,13 @@ public class DepositService {
             throw new ResourceNotFoundException( "Error creating Deposit");
         } else if (deposit.getAmount() < 0) {
             throw new ResourceNotFoundException("Cannot make negative deposit");
-        } else{
+        } else {
             Double accountBalance = account.getBalance();
             Double depositAmount = deposit.getAmount();
 
             Double transaction = depositAmount + accountBalance;
 
             account.setBalance(transaction);
-
 
             depositRepository.save(deposit);
             return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
@@ -72,26 +71,25 @@ public class DepositService {
         return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, deposit1);
     }
 
-    public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
-        Account account = accountService.getAccountByAccountId(deposit.getPayee_id().getId()).orElse(null);
+    public ResponseEntity<?> updateDeposit(Deposit deposit, Long accountId) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        deposit.setPayee_id(account);
+        if (account == null){
+            throw new ResourceNotFoundException( "Error updating Deposit");
+        } else if (deposit.getAmount() < 0) {
+            throw new ResourceNotFoundException("Cannot make negative deposit");
+        } else {
+            Double accountBalance = account.getBalance();
+            Double depositAmount = deposit.getAmount();
 
-        Double oldDepositAmount = depositRepository.findById(depositId).get().getAmount();
+            Double transaction = depositAmount + accountBalance;
 
-        Double accountBalance = account.getBalance();
+            account.setBalance(transaction);
 
-        Double oldBalance = accountBalance - oldDepositAmount;
-        account.setBalance(oldBalance);
-
-        Double depositAmount = deposit.getAmount();
-
-        Double transaction = oldBalance + depositAmount;
-        account.setBalance(transaction);
-
-        depositRepository.save(deposit);
-
-        return ResponseHandler.generateResponse("Updated", HttpStatus.OK, account);
+            depositRepository.save(deposit);
+            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+        }
     }
-
     public ResponseEntity<?> deleteDepositById(Long depositId)  {
         Deposit c = depositRepository.findById(depositId).orElse(null);
         if (c == null) {
@@ -101,9 +99,5 @@ public class DepositService {
         }
         return ResponseHandler.generateResponseNoObj("Deposit deleted", HttpStatus.OK);
     }
-
-
-
-
 
 }

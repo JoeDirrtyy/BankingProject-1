@@ -23,12 +23,15 @@ public class WithdrawalService {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private  AccountRepository accountRepository;
     
 
 
     public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
 
-        Account account = accountService.getAccountByAccountId(withdrawal.getPayer_id().getId()).orElse(null);
+        Account account = accountRepository.findById(withdrawal.getPayer_id().getId()).orElse(null);
         Double oldWithdrawalAmount = withdrawalRepository.findById(withdrawalId).get().getAmount();
         Double accountBalance = account.getBalance();
         Double oldBalance = accountBalance + oldWithdrawalAmount;
@@ -57,7 +60,7 @@ public class WithdrawalService {
     }
 
     public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long accountId) {
-        Optional<Account> account = accountService.getAccountByAccountId(accountId);
+        Optional<Account> account = accountRepository.findById(accountId);
 
         Double accountBalance = account.get().getBalance();
         Double withdrawalAmount = withdrawal.getAmount();

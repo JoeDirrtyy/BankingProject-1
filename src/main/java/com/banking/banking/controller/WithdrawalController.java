@@ -16,14 +16,14 @@ public class WithdrawalController {
 
 
 
-    @GetMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<?> getAllWithdrawals() {
-        return withdrawalService.getAllWithdrawals();
+    @GetMapping("/accounts/{payerId}/withdrawals")
+    public ResponseEntity<?> getAllWithdrawals(@PathVariable Long payerId) {
+        return withdrawalService.getAllWithdrawals(payerId);
     }
 
-    @PostMapping("/accounts/{accountId}/withdrawals")
-    public void createWithdrawal(@Valid @RequestBody Withdrawal withdrawal, Long accountId) {
-        withdrawalService.createWithdrawal(withdrawal, accountId);
+    @PostMapping("/accounts/{payerId}/withdrawals")
+    public ResponseEntity<?> createWithdrawal(@Valid @RequestBody Withdrawal withdrawal, @PathVariable Long payerId) {
+        return withdrawalService.createWithdrawal(withdrawal, payerId);
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")
@@ -31,9 +31,9 @@ public class WithdrawalController {
         return withdrawalService.getWithdrawalById(withdrawalId);
     }
 
-    @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal withdrawal, @PathVariable Long withdrawalId) {
-       return withdrawalService.updateWithdrawal(withdrawal, withdrawalId);
+    @PutMapping("/accounts/{payerId}/withdrawals")
+    public ResponseEntity<?> updateWithdrawal(@RequestBody Withdrawal withdrawal, @PathVariable Long payerId) {
+       return withdrawalService.updateWithdrawal(withdrawal, payerId);
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId}")

@@ -40,10 +40,8 @@ public class DepositController {
     public ResponseEntity<?> deleteDepositById(@PathVariable Long depositId) {
         return depositService.deleteDepositById(depositId);
     }
-@GetMapping("/accounts/{accountId}/deposits")
-    public ResponseEntity<?> getAllDepositsByAccountId() {
-        return depositService.getAllDepositsByAccountId();
-
-
+@GetMapping("/accounts/{payeeId}/deposits")
+    public ResponseEntity<?> getAllDepositsByAccountId(@PathVariable Long payeeId) {
+        return depositService.getAllDepositsByAccountId(payeeId);
     }
 }

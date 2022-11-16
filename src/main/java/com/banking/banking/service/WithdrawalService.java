@@ -26,26 +26,56 @@ public class WithdrawalService {
 
     @Autowired
     private  AccountRepository accountRepository;
-    
 
 
-    public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
 
-        Account account = accountRepository.findById(withdrawal.getPayer_id().getId()).orElse(null);
-        Double oldWithdrawalAmount = withdrawalRepository.findById(withdrawalId).get().getAmount();
-        Double accountBalance = account.getBalance();
-        Double oldBalance = accountBalance + oldWithdrawalAmount;
-        account.setBalance(oldBalance);
-        Double depositAmount = withdrawal.getAmount();
-        Double transaction = oldBalance - depositAmount;
-        account.setBalance(transaction);
-        withdrawalRepository.save(withdrawal);
-        return ResponseHandler.generateResponse("Successfully updated withdrawals", HttpStatus.OK, withdrawal);
+    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
+        Account account = accountRepository.findById(withdrawalId).orElse(null);
+        withdrawal.setPayer_id(account);
+
+        if (account == null){
+            throw new ResourceNotFoundException( "Error creating withdrawal");
+        } else if (withdrawal.getAmount() <= 0) {
+            throw new ResourceNotFoundException("Cannot make negative withdrawal");
+        } else if (account.getBalance() <= withdrawal.getAmount()) {
+            throw new ResourceNotFoundException("Cannot make Withdrawal larger that account balance");
+        } else {
+            Double accountBalance = account.getBalance();
+            Double withdrawalAmount = withdrawal.getAmount();
+            Double transaction = accountBalance - withdrawalAmount;
+
+            account.setBalance(transaction);
+
+            withdrawalRepository.save(withdrawal);
+            return ResponseHandler.generateResponse("Successfully retrieved Withdrawal data!", HttpStatus.OK, account);
+        }
     }
 
-    public ResponseEntity<?> getAllWithdrawals() {
-        List<Withdrawal> withdrawals = (List<Withdrawal>) withdrawalRepository.findAll();
-        if(withdrawals.isEmpty()){
+    public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
+        Account account = accountRepository.findById(withdrawalId).orElse(null);
+        withdrawal.setPayer_id(account);
+        if (account == null){
+            throw new ResourceNotFoundException( "Error creating withdrawal");
+        } else if (withdrawal.getAmount() < 0) {
+            throw new ResourceNotFoundException("Cannot make negative withdrawal");
+        } else if (account.getBalance() <= withdrawal.getAmount()) {
+            throw new ResourceNotFoundException("Cannot make Withdrawal larger that account balance");
+        }else {
+            Double accountBalance = account.getBalance();
+            Double withdrawalAmount = withdrawal.getAmount();
+
+            Double transaction = accountBalance - withdrawalAmount;
+
+            account.setBalance(transaction);
+
+            withdrawalRepository.save(withdrawal);
+            return ResponseHandler.generateResponse("Successfully retrieved Withdrawal data!", HttpStatus.OK, account);
+        }
+    }
+
+    public ResponseEntity<?> getAllWithdrawals(Long id) {
+        Withdrawal withdrawals = withdrawalRepository.findById(id).orElse(null);
+        if(withdrawals == null){
             throw new ResourceNotFoundException("error fetching customers");
         }
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, withdrawals);
@@ -59,23 +89,7 @@ public class WithdrawalService {
         return ResponseHandler.generateResponse("Successfully retrieved withdrawal data!", HttpStatus.OK, withdrawal);
     }
 
-    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
 
-        Double accountBalance = account.get().getBalance();
-        Double withdrawalAmount = withdrawal.getAmount();
-        Double total = accountBalance - withdrawalAmount;
-        account.get().setBalance(total);
-
-        if (accountId == null){
-            throw new ResourceNotFoundException("error updating withdrawal cant find account");
-        } else if (account.get().getBalance() <= 0) {
-            throw new ResourceNotFoundException("error creating withdrawal must be more than find zero");
-        } else {
-            withdrawalRepository.save(withdrawal);
-        }
-        return ResponseHandler.generateResponse("Updated", HttpStatus.OK, account);
-    }
 
     public ResponseEntity<?> deleteWithdrawalById(Long withdrawalId) {
         Withdrawal withdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);

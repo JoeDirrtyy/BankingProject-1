@@ -55,12 +55,12 @@ public class DepositService {
         }
     }
 
-    public ResponseEntity<?> getAllDepositsByAccountId(){
-        List<Deposit> deposits = (List<Deposit>) depositRepository.findAll();
-        if(deposits.isEmpty()){
-            throw new ResourceNotFoundException("error fetching deposits");
+    public ResponseEntity<?> getAllDepositsByAccountId(Long accountId){
+        Deposit deposit1 = depositRepository.findById(accountId).orElse(null);
+        if (deposit1 == null){
+            throw new ResourceNotFoundException("error fetching deposit");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, deposits);
+        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, deposit1);
     }
 
     public ResponseEntity<?> getDepositById(Long depositId) throws ResourceNotFoundException {

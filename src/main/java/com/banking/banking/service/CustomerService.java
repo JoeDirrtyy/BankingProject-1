@@ -23,7 +23,13 @@ public class CustomerService {
 
     public ResponseEntity<?> createCustomer (Customer customer) {
         Customer customer1 = customerRepository.save(customer);
-    
+        if (customer1.getAddress() == null) {
+            throw new ResourceNotFoundException("error");
+        } else if (customer1.getFirst_name() == null) {
+            throw new ResourceNotFoundException("error");
+        } else if (customer1.getLast_name() == null) {
+            throw new ResourceNotFoundException("error");
+        }
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, customer1);
         }
 

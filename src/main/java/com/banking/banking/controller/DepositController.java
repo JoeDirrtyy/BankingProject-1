@@ -31,9 +31,9 @@ public class DepositController {
         return depositService.getDepositById(depositId);
     }
 
-    @PutMapping("/deposits/{depositId}")
-    public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposit, @PathVariable Long depositId) {
-        return depositService.updateDeposit(deposit, depositId);
+    @PutMapping("/accounts/{payeeId}/deposits")
+    public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposits, @PathVariable Long payeeId) {
+        return depositService.updateDeposit(deposits, payeeId);
     }
 
     @DeleteMapping("/deposits/{depositId}")

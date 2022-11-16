@@ -22,18 +22,23 @@ public class AccountService {
     private AccountRepository accountRepository;
 
 
-    public Account createAccount(Long customerId, Account account) {
+    public ResponseEntity<?> createAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
-            return accountRepository.save(account);
+            accountRepository.save(account);
+            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+
 
         }).orElseThrow(() -> new ResourceNotFoundException("Customer ID not found"));
 
     }
 
-    public Optional<Account> getAccountByAccountId(Long accountId){
-
-        return accountRepository.findById(accountId);
+    public ResponseEntity<?> getAccountByAccountId(Long accountId){
+        Account accounts = accountRepository.findById(accountId).orElse(null);
+        if(accounts == null){
+           throw new ResourceNotFoundException("Could not retrieve account ID");
+        }
+        return  ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, accounts);
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId){
@@ -54,11 +59,23 @@ public class AccountService {
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, accounts);
     }
 
-    public Account updateAccount(Long customerId, Account account) {
+    public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
+        Account account1 = accountRepository.findById(accountId).orElse(null);
+        if (account1 == null){
+            throw new ResourceNotFoundException("Error fetching Account");
+        }
+        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account1);
+    }
+
+    public ResponseEntity<?> updateAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
-            return accountRepository.save(account);
+            accountRepository.save(account);
+            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+
+
         }).orElseThrow(() -> new ResourceNotFoundException("Customer ID not found"));
+
     }
 
 }

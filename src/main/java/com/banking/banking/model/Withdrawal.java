@@ -17,7 +17,7 @@ public class Withdrawal {
     private Status status;
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-    private Account payer_id;
+    private Account account;
     private Medium medium;
     private Double amount;
     private String description;
@@ -46,12 +46,12 @@ public class Withdrawal {
         this.status = status;
     }
 
-    public Account getPayer_id() {
-        return payer_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setPayer_id(Account payer_id) {
-        this.payer_id = payer_id;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Medium getMedium() {
@@ -90,11 +90,11 @@ public class Withdrawal {
     public String toString() {
         return "Withdrawal{" +
                 "id=" + id +
-                ", type='" + transferType + '\'' +
+                ", transferType=" + transferType +
                 ", transaction_date='" + transaction_date + '\'' +
-                ", status='" + status + '\'' +
-                ", payer_id=" + payer_id +
-                ", medium='" + medium + '\'' +
+                ", status=" + status +
+                ", account=" + account +
+                ", medium=" + medium +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 '}';

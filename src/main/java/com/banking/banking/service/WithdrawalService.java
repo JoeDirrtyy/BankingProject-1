@@ -39,7 +39,7 @@ public class WithdrawalService {
         // save the withdrawal
         // then return response handler
         Account account = accountRepository.findById(withdrawalId).orElse(null);
-        withdrawal.setPayer_id(account);
+        withdrawal.setAccount(account);
 
         if (account == null){
             throw new ResourceNotFoundException( "Error creating withdrawal");
@@ -70,7 +70,7 @@ public class WithdrawalService {
         // save the withdrawal
         // then return response handler
         Account account = accountRepository.findById(withdrawalId).orElse(null);
-        withdrawal.setPayer_id(account);
+        withdrawal.setAccount(account);
         if (account == null){
             throw new ResourceNotFoundException( "Error creating withdrawal");
         } else if (withdrawal.getAmount() < 0) {
@@ -115,10 +115,10 @@ public class WithdrawalService {
     public ResponseEntity<?> getAllDepositsByAccountId(Long accountId){
         Iterable<Withdrawal> withdrawals = withdrawalRepository.getAllWithdrawalsByAccountId(accountId);
 
-        // find the deposit by id
-        // if the deposit id is equal to null
-        // throw an exception
-        // account id is already in endpoint
+//         find the deposit by id
+//         if the deposit id is equal to null
+//         throw an exception
+//         account id is already in endpoint
         if (withdrawals == null){
             throw new ResourceNotFoundException("error fetching deposit");
         }

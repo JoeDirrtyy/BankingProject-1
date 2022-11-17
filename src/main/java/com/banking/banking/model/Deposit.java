@@ -18,7 +18,7 @@ public class Deposit {
     private Status status;
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-    private Account payee_id;
+    private Account account;
     private Medium medium;
     private Double amount;
     private String description;
@@ -55,15 +55,13 @@ public class Deposit {
         this.medium = medium;
     }
 
-    public Account getPayee_id() {
-        return payee_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setPayee_id(Account payee_id) {
-        this.payee_id = payee_id;
+    public void setAccount(Account account) {
+        this.account = account;
     }
-
-
 
     public Double getAmount() {
         return amount;
@@ -93,11 +91,11 @@ public class Deposit {
     public String toString() {
         return "Deposit{" +
                 "id=" + id +
-                ", transferType='" + transferType + '\'' +
+                ", transferType=" + transferType +
                 ", transaction_date='" + transaction_date + '\'' +
-                ", status='" + status + '\'' +
-                ", payee_id=" + payee_id +
-                ", medium='" + medium + '\'' +
+                ", status=" + status +
+                ", account=" + account +
+                ", medium=" + medium +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 '}';

@@ -43,7 +43,7 @@ public class DepositService {
 // else add the account balance and deposit amount and set the account balance to transaction
         // then return response handler
         Account account = accountRepository.findById(accountId).orElse(null);
-        deposit.setPayee_id(account);
+        deposit.setAccount(account);
         if (account == null){
             throw new ResourceNotFoundException( "Error creating Deposit");
         } else if (deposit.getAmount() < 0) {
@@ -62,12 +62,12 @@ public class DepositService {
     }
 
     public ResponseEntity<?> getAllDepositsByTheAccountId(Long accountId){
-       Iterable<Deposit> deposits = depositRepository.getAllDepositsByPayee_id(accountId);
+       Iterable<Deposit> deposits = depositRepository.getAllDepositsByAccountId(accountId);
 
-        // find the deposit by id
-        // if the deposit id is equal to null
-        // throw an exception
-        // account id is already in endpoint
+//         find the deposit by id
+//         if the deposit id is equal to null
+//         throw an exception
+//         account id is already in endpoint
         if (deposits == null){
             throw new ResourceNotFoundException("error fetching deposit");
         }
@@ -94,7 +94,7 @@ public class DepositService {
 // else add the account balance and deposit amount and set the account balance to transaction
         // then return response handler
         Account account = accountRepository.findById(accountId).orElse(null);
-        deposit.setPayee_id(account);
+        deposit.setAccount(account);
         if (account == null){
             throw new ResourceNotFoundException( "Error updating Deposit");
         } else if (deposit.getAmount() < 0) {

@@ -15,7 +15,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/customers")
-    public ResponseEntity<?>createCustomer(@RequestBody  Customer customer) throws Exception {
+    public ResponseEntity<?>createCustomer(@RequestBody  Customer customer)  {
         return customerService.createCustomer(customer);
     }
 

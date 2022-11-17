@@ -1,5 +1,6 @@
 package com.banking.banking.controller;
 
+import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.model.Bill;
 import com.banking.banking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class BillController {
@@ -32,6 +34,10 @@ public class BillController {
     @GetMapping("/customers/{customerId}/bills")
     public ResponseEntity<?> getAllBillForCustomer(@PathVariable Long customerId){
         return billService.getAllBillsforCustomer(customerId);
+
+        //  List<Bill> bills =  billService.getAllBillsforCustomer(customerId);
+        //  return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bills);
+
     }
 
     @PostMapping("/accounts/{accountId}/bills")

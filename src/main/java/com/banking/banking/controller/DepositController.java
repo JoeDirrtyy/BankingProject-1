@@ -21,9 +21,9 @@ public class DepositController {
 //        return depositService.getAllDeposits();
 //    }
 
-    @PostMapping("/accounts/{payeeId}/deposits")
-    public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposit deposits, @PathVariable Long payeeId) {
-        return depositService.createDeposit(deposits, payeeId);
+    @PostMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> createDeposit(@Valid @RequestBody Deposit deposits, @PathVariable Long accountId) {
+        return depositService.createDeposit(deposits, accountId);
     }
 
     @GetMapping("/deposits/{depositId}")
@@ -31,17 +31,17 @@ public class DepositController {
         return depositService.getDepositById(depositId);
     }
 
-    @PutMapping("/accounts/{payeeId}/deposits")
-    public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposits, @PathVariable Long payeeId) {
-        return depositService.updateDeposit(deposits, payeeId);
+    @PutMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> updateDeposit(@RequestBody Deposit deposits, @PathVariable Long accountId) {
+        return depositService.updateDeposit(deposits, accountId);
     }
 
     @DeleteMapping("/deposits/{depositId}")
     public ResponseEntity<?> deleteDepositById(@PathVariable Long depositId) {
         return depositService.deleteDepositById(depositId);
     }
-@GetMapping("/accounts/{payeeId}/deposits")
-    public ResponseEntity<?> getAllDepositsByAccountId(@PathVariable Long payeeId) {
-        return depositService.getAllDepositsByTheAccountId(payeeId);
+@GetMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> getAllDepositsByAccountId(@PathVariable Long accountId) {
+        return depositService.getAllDepositsByTheAccountId(accountId);
     }
 }

@@ -32,14 +32,14 @@ public class BillService {
     @Autowired
     private CustomerService customerService;
 
-    public ResponseEntity<?> getAllBillsforCustomer(Long customerID) {
-        Optional<Customer> customerId = customerRepository.findById(customerID);
+    public ResponseEntity<?> getAllBillsforCustomer(Long account_iD) {
 
-       // List<Bill> bill = billRepository.getAllBillsByAccountId(customerID);
-        if (customerId.isEmpty()){
+        Iterable<Bill> bills = billRepository.getAllBillsByAccountId(account_iD);
+
+        if (bills == null){
          throw new ResourceNotFoundException("Bills not found.");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, customerID);
+        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, account_iD);
     }
 
     public ResponseEntity<?> getAllBillsforAccount(Long accountID) {

@@ -42,6 +42,6 @@ public class DepositController {
     }
 @GetMapping("/accounts/{payeeId}/deposits")
     public ResponseEntity<?> getAllDepositsByAccountId(@PathVariable Long payeeId) {
-        return depositService.getAllDepositsByAccountId(payeeId);
+        return depositService.getAllDepositsByTheAccountId(payeeId);
     }
 }

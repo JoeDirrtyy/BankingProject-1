@@ -112,6 +112,19 @@ public class WithdrawalService {
         return ResponseHandler.generateResponse("Successfully retrieved withdrawal data!", HttpStatus.OK, withdrawal);
     }
 
+    public ResponseEntity<?> getAllDepositsByAccountId(Long accountId){
+        Iterable<Withdrawal> withdrawals = withdrawalRepository.getAllWithdrawalsByAccountId(accountId);
+
+        // find the deposit by id
+        // if the deposit id is equal to null
+        // throw an exception
+        // account id is already in endpoint
+        if (withdrawals == null){
+            throw new ResourceNotFoundException("error fetching deposit");
+        }
+        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, withdrawals);
+    }
+
 
 
     public ResponseEntity<?> deleteWithdrawalById(Long withdrawalId) {

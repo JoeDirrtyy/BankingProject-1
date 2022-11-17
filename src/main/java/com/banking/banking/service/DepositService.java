@@ -61,16 +61,17 @@ public class DepositService {
         }
     }
 
-    public ResponseEntity<?> getAllDepositsByAccountId(Long accountId){
+    public ResponseEntity<?> getAllDepositsByTheAccountId(Long accountId){
+       Iterable<Deposit> deposits = depositRepository.getAllDepositsByPayee_id(accountId);
+
         // find the deposit by id
         // if the deposit id is equal to null
         // throw an exception
         // account id is already in endpoint
-        Deposit deposit1 = depositRepository.findById(accountId).orElse(null);
-        if (deposit1 == null){
+        if (deposits == null){
             throw new ResourceNotFoundException("error fetching deposit");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, deposit1);
+        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, deposits);
     }
 
     public ResponseEntity<?> getDepositById(Long depositId) throws ResourceNotFoundException {

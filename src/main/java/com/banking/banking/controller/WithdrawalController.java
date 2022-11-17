@@ -16,9 +16,9 @@ public class WithdrawalController {
 
 
 
-    @GetMapping("/accounts/{payerId}/withdrawals")
-    public ResponseEntity<?> getAllWithdrawals(@PathVariable Long payerId) {
-        return withdrawalService.getAllWithdrawals(payerId);
+    @GetMapping("/accounts/{payeeId}/withdrawals")
+    public ResponseEntity<?> getAllWithdrawalsByAccountId(@PathVariable Long payeeId) {
+        return withdrawalService.getAllDepositsByAccountId(payeeId);
     }
 
     @PostMapping("/accounts/{payerId}/withdrawals")

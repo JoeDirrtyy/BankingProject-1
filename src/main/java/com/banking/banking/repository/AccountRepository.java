@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
+    Iterable<Account> getAllAccountsByCustomerId(Long customerId);
+
 }

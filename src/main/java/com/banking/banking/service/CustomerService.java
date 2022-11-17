@@ -82,9 +82,9 @@ public class CustomerService {
 
 
     public ResponseEntity<?> getCustomerByAccountId(Long accountId){
-        Optional<Account> customerId = accountRepository.findById(accountId);
+        Iterable<Account> customerId = accountRepository.getAllAccountsByCustomerId(accountId);
 
-        if (customerId.isEmpty()){
+        if (customerId == null){
             throw new ResourceNotFoundException("error fetching customer");
         }
         return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, customerId);

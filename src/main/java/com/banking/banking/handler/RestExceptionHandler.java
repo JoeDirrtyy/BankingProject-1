@@ -26,6 +26,9 @@ public class RestExceptionHandler {
         errorDetail.setMessage(rnfe.getMessage());
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
+        // setting message to rnfe .get message it gets any message from the custom exception
+        // returns reasoner entity  with  setting the error detail for the code to the value of the mot found value
+
     }
 
 

@@ -34,16 +34,16 @@ public class AccountService {
     }
 
     public ResponseEntity<?> getAccountByAccountId(Long accountId){
-        Account accounts = accountRepository.findById(accountId).orElse(null);
-        if(accounts == null){
+        Optional<Account> a = accountRepository.findById(accountId);
+        if(a.isEmpty()){
            throw new ResourceNotFoundException("Could not retrieve account ID");
         }
-        return  ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, accounts);
+        return  ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, a);
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId){
-        Account a = accountRepository.findById(accountId).orElse(null);
-        if (a == null) {
+        Optional<Account> a = accountRepository.findById(accountId);
+        if (a.isEmpty()) {
             throw new ResourceNotFoundException("Error deleting account");
         }else {
             accountRepository.deleteById(accountId);
@@ -59,13 +59,13 @@ public class AccountService {
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, accounts);
     }
 
-    public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
-        Account account1 = accountRepository.findById(accountId).orElse(null);
-        if (account1 == null){
-            throw new ResourceNotFoundException("Error fetching Account");
-        }
-        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account1);
-    }
+//    public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
+//        Account account1 = accountRepository.findById(accountId).orElse(null);
+//        if (account1 == null){
+//            throw new ResourceNotFoundException("Error fetching Account");
+//        }
+//        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account1);
+//    }
 
     public ResponseEntity<?> updateAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {

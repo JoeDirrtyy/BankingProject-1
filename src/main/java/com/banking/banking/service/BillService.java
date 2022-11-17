@@ -4,15 +4,19 @@ import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Account;
 import com.banking.banking.model.Bill;
+import com.banking.banking.model.Customer;
 import com.banking.banking.model.Deposit;
 import com.banking.banking.repository.AccountRepository;
 import com.banking.banking.repository.BillRepository;
+import com.banking.banking.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
@@ -22,25 +26,38 @@ public class BillService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public ResponseEntity<?> getAllBills() {
-        List<Bill> bills = (List<Bill>) billRepository.findAll();
-        if (bills.isEmpty()){
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private CustomerService customerService;
+
+    public ResponseEntity<?> getAllBillsforCustomer(Long customerID) {
+        Optional<Customer> customerId = customerRepository.findById(customerID);
+
+       // List<Bill> bill = billRepository.getAllBillsByAccountId(customerID);
+        if (customerId.isEmpty()){
          throw new ResourceNotFoundException("Bills not found.");
+        }
+        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, customerID);
+    }
+
+    public ResponseEntity<?> getAllBillsforAccount(Long accountID) {
+        Iterable<Bill> bills = billRepository.findBillByAccountId(accountID);
+        if (bills == null){
+            throw new ResourceNotFoundException("Bills not found.");
         }
         return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bills);
     }
 
     public ResponseEntity<?> getBillById(Long billId) {
-        Bill bill = billRepository.findById(billId).orElse(null);
-        if (bill == null){
+        Optional<Bill> a = billRepository.findById(billId);
+        if (a.isEmpty()){
             throw new ResourceNotFoundException("Getting Bill by ID not found.");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bill);
+        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, a);
     }
 
-    /*public void verifyBill(Long billId) {
-        Bill bill= BillRepository.findById(billId).orElse(null);
-    }*/
     public ResponseEntity<?> createBill(Long accountId, Bill bill) {
         accountRepository.findById(accountId).map(account -> {
             bill.setAccount(account);
@@ -49,13 +66,6 @@ public class BillService {
         return ResponseHandler.generateResponse("Here is your bill", HttpStatus.OK, bill);
     }
     public ResponseEntity<?> updateBill(Bill bill, Long accountId) {
-//        Bill billU = billRepository.findById(billId).orElse(null);
-//        if(billU == null){
-//            throw new ResourceNotFoundException("Couldn't update bill");
-//        }else{
-//            billRepository.save(bill);
-//        }
-//        return ResponseHandler.generateResponseNoObj("Bill updated", HttpStatus.OK);
         accountRepository.findById(accountId).map(account -> {
             bill.setAccount(account);
             return billRepository.save(bill);

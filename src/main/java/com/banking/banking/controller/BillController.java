@@ -26,12 +26,12 @@ public class BillController {
     }
 
     @GetMapping("/accounts/{accountId}/bills")
-    public ResponseEntity<?> getAllBillForAccount() {
-        return billService.getAllBills();
+    public ResponseEntity<?> getAllBillForAccount(@PathVariable Long accountId) {
+        return billService.getAllBillsforAccount(accountId);
     }
     @GetMapping("/customers/{customerId}/bills")
-    public ResponseEntity<?> getAllBillForCustomer(){
-        return billService.getAllBills();
+    public ResponseEntity<?> getAllBillForCustomer(@PathVariable Long customerId){
+        return billService.getAllBillsforCustomer(customerId);
     }
 
     @PostMapping("/accounts/{accountId}/bills")

@@ -2,7 +2,9 @@ package com.banking.banking.service;
 
 import com.banking.banking.ResponseHandler.ResponseHandler;
 import com.banking.banking.exception.ResourceNotFoundException;
+import com.banking.banking.model.Account;
 import com.banking.banking.model.Customer;
+import com.banking.banking.repository.AccountRepository;
 import com.banking.banking.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -45,17 +51,17 @@ public class CustomerService {
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, customers);
     }
 
-    public ResponseEntity<?> getCustomerById(Long depositId) throws ResourceNotFoundException{
-        Customer customer = customerRepository.findById(depositId).orElse(null);
-        if (customer == null){
+    public ResponseEntity<?> getCustomerById(Long customerID) {
+        Optional<Customer> c = customerRepository.findById(customerID);
+        if (c.isEmpty()){
             throw new ResourceNotFoundException("error fetching account");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, customer);
+        return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, c);
     }
 
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId){
-        Customer c = customerRepository.findById(customerId).orElse(null);
-        if (c == null){
+        Optional<Customer> c = customerRepository.findById(customerId);
+        if (c.isEmpty()){
             throw new ResourceNotFoundException("error updating account");
         }else {
             customerRepository.save(customer);
@@ -65,8 +71,8 @@ public class CustomerService {
     //broken
 
     public ResponseEntity<?> deleteCustomerById(Long customerId) {
-        Customer c = customerRepository.findById(customerId).orElse(null);
-        if (c == null) {
+        Optional<Customer> c = customerRepository.findById(customerId);
+        if (c.isEmpty()) {
             throw new ResourceNotFoundException("error deleting account");
         }else {
             customerRepository.deleteById(customerId);
@@ -76,10 +82,11 @@ public class CustomerService {
 
 
     public ResponseEntity<?> getCustomerByAccountId(Long accountId){
-        Customer customer = customerRepository.findById(accountId).orElse(null);
-        if (customer == null){
+        Optional<Account> customerId = accountRepository.findById(accountId);
+
+        if (customerId.isEmpty()){
             throw new ResourceNotFoundException("error fetching customer");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, customer);
+        return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, customerId);
     }
 }

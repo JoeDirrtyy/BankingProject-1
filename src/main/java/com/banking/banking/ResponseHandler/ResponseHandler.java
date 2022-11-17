@@ -1,5 +1,6 @@
 package com.banking.banking.ResponseHandler;
 
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ResponseHandler {
         public static ResponseEntity<Object> generateResponse(String message, HttpStatus code, Object responseObj) {
@@ -21,6 +23,9 @@ public class ResponseHandler {
             return new ResponseEntity<Object>(map, code);
         }
 
+
+
+
     public static ResponseEntity<Object> generateResponseNoObj(String message, HttpStatus code) {
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -28,6 +33,8 @@ public class ResponseHandler {
         map.put("message", message);
         return new ResponseEntity<Object>(map, code);
     }
+
+
 
 }
 

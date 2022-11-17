@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 public class ErrorDetail {
+    //attributes for the error message
 private int code;
 
 private String message;

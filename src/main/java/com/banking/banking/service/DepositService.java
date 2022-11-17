@@ -36,6 +36,12 @@ public class DepositService {
 
 
     public ResponseEntity<?> createDeposit(Deposit deposit, Long accountId) {
+        // creating for a deposit for the account id
+        // setting the payee id to the account
+        //if the find by id is equal to null throw an exception
+        // if the deposit is less than zero throw an exception
+// else add the account balance and deposit amount and set the account balance to transaction
+        // then return response handler
         Account account = accountRepository.findById(accountId).orElse(null);
         deposit.setPayee_id(account);
         if (account == null){
@@ -56,6 +62,10 @@ public class DepositService {
     }
 
     public ResponseEntity<?> getAllDepositsByAccountId(Long accountId){
+        // find the deposit by id
+        // if the deposit id is equal to null
+        // throw an exception
+        // account id is already in endpoint
         Deposit deposit1 = depositRepository.findById(accountId).orElse(null);
         if (deposit1 == null){
             throw new ResourceNotFoundException("error fetching deposit");
@@ -64,6 +74,9 @@ public class DepositService {
     }
 
     public ResponseEntity<?> getDepositById(Long depositId) throws ResourceNotFoundException {
+        // find the deposit by id
+        // if the account id is equal to null
+        // throw an exception
         Deposit deposit1 = depositRepository.findById(depositId).orElse(null);
         if (deposit1 == null){
             throw new ResourceNotFoundException("error fetching deposit");
@@ -72,6 +85,13 @@ public class DepositService {
     }
 
     public ResponseEntity<?> updateDeposit(Deposit deposit, Long accountId) {
+
+        // updating a deposit for the account id
+        // setting the payee id to the account
+        //if the find by id is equal to null throw an exception
+        // if the deposit is less than zero throw an exception
+// else add the account balance and deposit amount and set the account balance to transaction
+        // then return response handler
         Account account = accountRepository.findById(accountId).orElse(null);
         deposit.setPayee_id(account);
         if (account == null){
@@ -91,6 +111,11 @@ public class DepositService {
         }
     }
     public ResponseEntity<?> deleteDepositById(Long depositId)  {
+
+        // find the account by id
+        // if the account id is equal to null
+        // throw an exception
+        // else delete the deposit
         Deposit c = depositRepository.findById(depositId).orElse(null);
         if (c == null) {
             throw new ResourceNotFoundException("error deleting deposit");

@@ -31,13 +31,14 @@ public class WithdrawalService {
 
     public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
         // creating for a withdrawal for the account id
-        // setting the payee id to the account
+        // setting the account id to the account
         //if the find by id is equal to null throw an exception
         // if the with drawl is less than zero throw an exception
         // if the with drawl amount is more than the account balance throw an exception
 // else subtract the account balance and withdrawal amount and set the account balance to transaction
         // save the withdrawal
         // then return response handler
+      // Optional<Account> account  = accountRepository.findById(withdrawalId)
         Account account = accountRepository.findById(withdrawalId).orElse(null);
         withdrawal.setAccount(account);
 
@@ -55,7 +56,7 @@ public class WithdrawalService {
             account.setBalance(transaction);
 
             withdrawalRepository.save(withdrawal);
-            return ResponseHandler.generateResponse("Successfully retrieved Withdrawal data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully created Withdrawal!", HttpStatus.OK, account);
         }
     }
 
@@ -86,20 +87,10 @@ public class WithdrawalService {
             account.setBalance(transaction);
 
             withdrawalRepository.save(withdrawal);
-            return ResponseHandler.generateResponse("Successfully retrieved Withdrawal data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully updated Withdrawal!", HttpStatus.OK, account);
         }
     }
 
-    public ResponseEntity<?> getAllWithdrawals(Long id) {
-        // find the withdraw by id
-        // if the withdrawal id is equal to null
-        // throw an exception
-        Withdrawal withdrawals = withdrawalRepository.findById(id).orElse(null);
-        if(withdrawals == null){
-            throw new ResourceNotFoundException("error fetching withdrawals");
-        }
-        return ResponseHandler.generateResponse("Successfully retrieved withdrawal' data!", HttpStatus.OK, withdrawals);
-    }
 
     public ResponseEntity<?> getWithdrawalById(Long withdrawalId) {
         // get the withdraw by id

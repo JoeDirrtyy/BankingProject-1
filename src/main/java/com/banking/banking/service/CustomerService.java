@@ -30,11 +30,11 @@ public class CustomerService {
     public ResponseEntity<?> createCustomer (Customer customer) {
         Customer customer1 = customerRepository.save(customer);
         if (customer1.getAddress() == null) {
-            throw new ResourceNotFoundException("error");
+            throw new ResourceNotFoundException("error customer must have address");
         } else if (customer1.getFirst_name() == null) {
-            throw new ResourceNotFoundException("error");
+            throw new ResourceNotFoundException("error customer must have first name");
         } else if (customer1.getLast_name() == null) {
-            throw new ResourceNotFoundException("error");
+            throw new ResourceNotFoundException("error customer must have last name");
         }
         return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, customer1);
         }
@@ -54,7 +54,7 @@ public class CustomerService {
     public ResponseEntity<?> getCustomerById(Long customerID) {
         Optional<Customer> c = customerRepository.findById(customerID);
         if (c.isEmpty()){
-            throw new ResourceNotFoundException("error fetching account");
+            throw new ResourceNotFoundException("error fetching customer");
         }
         return ResponseHandler.generateResponse("Successfully retrieved customer data!", HttpStatus.OK, c);
     }
@@ -62,18 +62,18 @@ public class CustomerService {
     public ResponseEntity<?> updateCustomer(Customer customer, Long customerId){
         Optional<Customer> c = customerRepository.findById(customerId);
         if (c.isEmpty()){
-            throw new ResourceNotFoundException("error updating account");
+            throw new ResourceNotFoundException("error updating customer");
         }else {
             customerRepository.save(customer);
         }
-        return ResponseHandler.generateResponse("Updated", HttpStatus.OK, c);
+        return ResponseHandler.generateResponse("Updated Customer", HttpStatus.OK, c);
     }
     //broken
 
     public ResponseEntity<?> deleteCustomerById(Long customerId) {
         Optional<Customer> c = customerRepository.findById(customerId);
         if (c.isEmpty()) {
-            throw new ResourceNotFoundException("error deleting account");
+            throw new ResourceNotFoundException("error deleting customer");
         }else {
             customerRepository.deleteById(customerId);
         }

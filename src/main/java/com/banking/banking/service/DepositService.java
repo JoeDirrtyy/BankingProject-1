@@ -57,7 +57,7 @@ public class DepositService {
             account.setBalance(transaction);
 
             depositRepository.save(deposit);
-            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully created deposit!", HttpStatus.OK, account);
         }
     }
 
@@ -71,7 +71,7 @@ public class DepositService {
         if (deposits == null){
             throw new ResourceNotFoundException("error fetching deposit");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, deposits);
+        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, deposits);
     }
 
     public ResponseEntity<?> getDepositById(Long depositId) throws ResourceNotFoundException {
@@ -108,7 +108,7 @@ public class DepositService {
             account.setBalance(transaction);
 
             depositRepository.save(deposit);
-            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully updated deposit!", HttpStatus.OK, account);
         }
     }
     public ResponseEntity<?> deleteDepositById(Long depositId)  {

@@ -26,7 +26,7 @@ public class AccountService {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
             accountRepository.save(account);
-            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully created account!", HttpStatus.OK, account);
 
 
         }).orElseThrow(() -> new ResourceNotFoundException("Customer ID not found"));
@@ -38,7 +38,7 @@ public class AccountService {
         if(a.isEmpty()){
            throw new ResourceNotFoundException("Could not retrieve account ID");
         }
-        return  ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, a);
+        return  ResponseHandler.generateResponse("Successfully retrieved account data!", HttpStatus.OK, a);
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId){
@@ -56,22 +56,15 @@ public class AccountService {
         if(accounts.isEmpty()){
             throw new ResourceNotFoundException("Error fetching accounts");
         }
-        return ResponseHandler.generateResponse("Successfully retrieved customers' data!", HttpStatus.OK, accounts);
+        return ResponseHandler.generateResponse("Successfully retrieved account' data!", HttpStatus.OK, accounts);
     }
 
-//    public ResponseEntity<?> getAccountById(Long accountId) throws ResourceNotFoundException {
-//        Account account1 = accountRepository.findById(accountId).orElse(null);
-//        if (account1 == null){
-//            throw new ResourceNotFoundException("Error fetching Account");
-//        }
-//        return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account1);
-//    }
 
     public ResponseEntity<?> updateAccount(Long customerId, Account account) {
         return customerRepository.findById(customerId).map(customer -> {
             account.setCustomer(customer);
             accountRepository.save(account);
-            return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, account);
+            return ResponseHandler.generateResponse("Successfully updated account data!", HttpStatus.OK, account);
 
 
         }).orElseThrow(() -> new ResourceNotFoundException("Customer ID not found"));

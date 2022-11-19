@@ -39,7 +39,6 @@ public class BillService {
         if (bills == null){
          throw new ResourceNotFoundException("Bills not found.");
         }
-       // return billRepository.findBillByAccountId(accountId)
        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bills);
     }
 
@@ -64,14 +63,14 @@ public class BillService {
             bill.setAccount(account);
             return billRepository.save(bill);
         }).orElseThrow(() -> new ResourceNotFoundException("couldn't create bill"));
-        return ResponseHandler.generateResponse("Here is your bill", HttpStatus.OK, bill);
+        return ResponseHandler.generateResponse("Successfully created bill", HttpStatus.OK, bill);
     }
     public ResponseEntity<?> updateBill(Bill bill, Long accountId) {
         accountRepository.findById(accountId).map(account -> {
             bill.setAccount(account);
             return billRepository.save(bill);
         }).orElseThrow(() -> new ResourceNotFoundException("couldn't update bill"));
-        return ResponseHandler.generateResponseNoObj("Here is your bill", HttpStatus.OK);
+        return ResponseHandler.generateResponseNoObj(" bill modification completed", HttpStatus.OK);
     }
     public ResponseEntity<?> deleteBill(Long billId) {
         Bill c = billRepository.findById(billId).orElse(null);

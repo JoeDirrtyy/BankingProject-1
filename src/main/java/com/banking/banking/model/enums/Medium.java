@@ -3,9 +3,9 @@ package com.banking.banking.model.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Medium {
-    @JsonProperty("Balance")
+    @JsonProperty("balance")
     BALANCE("Balance"),
-    @JsonProperty("Rewards")
+    @JsonProperty("rewards")
     REWARDS("Rewards");
 
     private String medium;

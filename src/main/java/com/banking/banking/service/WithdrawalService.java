@@ -70,7 +70,7 @@ public class WithdrawalService {
 // else subtract the account balance and withdrawal amount and set the account balance to transaction
         // save the withdrawal
         // then return response handler
-        Account account = accountRepository.findById(withdrawalId).orElse(null);
+        Account account = accountRepository.findById(withdrawal.getId()).orElse(null);
         withdrawal.setAccount(account);
         if (account == null){
             throw new ResourceNotFoundException( "Error creating withdrawal");
@@ -79,11 +79,17 @@ public class WithdrawalService {
         } else if (account.getBalance() <= withdrawal.getAmount()) {
             throw new ResourceNotFoundException("Cannot make Withdrawal larger that account balance");
         }else {
+
+            Double oldWithdrawalAmount = withdrawalRepository.findById(withdrawalId).get().getAmount();
+
             Double accountBalance = account.getBalance();
+
+            Double oldBalance = accountBalance + oldWithdrawalAmount;
+            account.setBalance(oldBalance);
+
             Double withdrawalAmount = withdrawal.getAmount();
 
-            Double transaction = accountBalance - withdrawalAmount;
-
+            Double transaction = oldBalance - withdrawalAmount;
             account.setBalance(transaction);
 
             withdrawalRepository.save(withdrawal);

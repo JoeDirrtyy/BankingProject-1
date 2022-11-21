@@ -85,7 +85,7 @@ public class DepositService {
         return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, deposit1);
     }
 
-    public ResponseEntity<?> updateDeposit(Deposit deposit, Long accountId) {
+    public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
 
         // updating a deposit for the account id
         // setting the payee id to the account
@@ -93,18 +93,23 @@ public class DepositService {
         // if the deposit is less than zero throw an exception
 // else add the account balance and deposit amount and set the account balance to transaction
         // then return response handler
-        Account account = accountRepository.findById(accountId).orElse(null);
+        Account account = accountRepository.findById(deposit.getId()).orElse(null);
         deposit.setAccount(account);
         if (account == null){
             throw new ResourceNotFoundException( "Error updating Deposit");
         } else if (deposit.getAmount() < 0) {
             throw new ResourceNotFoundException("Cannot make negative deposit");
         } else {
+            Double oldDepositAmount = depositRepository.findById(depositId).get().getAmount();
+
             Double accountBalance = account.getBalance();
+
+            Double oldBalance = accountBalance - oldDepositAmount;
+            account.setBalance(oldBalance);
+
             Double depositAmount = deposit.getAmount();
 
-            Double transaction = depositAmount + accountBalance;
-
+            Double transaction = oldBalance + depositAmount;
             account.setBalance(transaction);
 
             depositRepository.save(deposit);

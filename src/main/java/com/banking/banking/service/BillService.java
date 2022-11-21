@@ -33,18 +33,20 @@ public class BillService {
     private CustomerService customerService;
 
     public ResponseEntity<?> getAllBillsforCustomer(Long customer_iD) {
+        Iterable<Long> billss = billRepository.getAccountIdThatMatchesCustomerId(customer_iD);
 
-        Iterable<Bill> bills = billRepository.getAllBillsByCustomerId(customer_iD);
 
-        if (bills == null){
+        List<Bill> bills = (List<Bill>) billRepository.getAllBillsByCustomerId(billss);
+
+        if (bills.isEmpty()){
          throw new ResourceNotFoundException("Bills not found.");
         }
        return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bills);
     }
 
     public ResponseEntity<?> getAllBillsforAccount(Long accountID) {
-        Iterable<Bill> bills = billRepository.findBillByAccountId(accountID);
-        if (bills == null){
+        List<Bill> bills = (List<Bill>) billRepository.findBillByAccountId(accountID);
+        if (bills.isEmpty()){
             throw new ResourceNotFoundException("Bills not found.");
         }
         return ResponseHandler.generateResponse("Successfully retrieved bill data!", HttpStatus.OK, bills);

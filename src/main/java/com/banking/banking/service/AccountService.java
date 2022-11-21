@@ -42,8 +42,8 @@ public class AccountService {
     }
 
     public ResponseEntity<?> deleteAccount(Long accountId){
-        Optional<Account> a = accountRepository.findById(accountId);
-        if (a.isEmpty()) {
+        Optional <Account> account  = accountRepository.findById(accountId);
+        if (account.isEmpty()) {
             throw new ResourceNotFoundException("Error deleting account");
         }else {
             accountRepository.deleteById(accountId);

@@ -1,5 +1,6 @@
 package com.banking.banking.controller;
 
+import com.banking.banking.exception.ResourceNotFoundException;
 import com.banking.banking.model.Deposit;
 import com.banking.banking.service.DepositService;
 import org.aspectj.apache.bcel.classfile.Code;
@@ -42,6 +43,7 @@ public class DepositController {
     }
 @GetMapping("/accounts/{accountId}/deposits")
     public ResponseEntity<?> getAllDepositsByAccountId(@PathVariable Long accountId) {
+
         return depositService.getAllDepositsByTheAccountId(accountId);
     }
 }

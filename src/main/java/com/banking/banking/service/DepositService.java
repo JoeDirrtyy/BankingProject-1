@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,13 +63,13 @@ public class DepositService {
     }
 
     public ResponseEntity<?> getAllDepositsByTheAccountId(Long accountId){
-       Iterable<Deposit> deposits = depositRepository.getAllDepositsByAccountId(accountId);
+       List<Deposit> deposits = (List<Deposit>) depositRepository.getAllDepositsByAccountId(accountId);
 
 //         find the deposit by id
 //         if the deposit id is equal to null
 //         throw an exception
 //         account id is already in endpoint
-        if (deposits == null){
+        if (deposits.isEmpty()){
             throw new ResourceNotFoundException("error fetching deposit");
         }
         return ResponseHandler.generateResponse("Successfully retrieved deposit data!", HttpStatus.OK, deposits);

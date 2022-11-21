@@ -6,6 +6,8 @@ import com.banking.banking.model.Withdrawal;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Iterator;
+
 @Repository
 public interface DepositRepository extends CrudRepository<Deposit, Long> {
     Iterable<Deposit> getAllDepositsByAccountId(Long accountId);

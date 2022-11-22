@@ -27,7 +27,7 @@ public class ResponseHandler {
     // with a message
     // code value of the status
     // and data having the response obj
-    // returns the map with the status code
+    // returns the map with the status code because response entity needs a object and status code
 
 
 

@@ -20,10 +20,14 @@ public class ResponseHandler {
 
 
 
-            return new ResponseEntity<Object>(map, code);
+            return new ResponseEntity<Object>(map,code);
         }
 
-        //
+        //making a response entity that returns a hashmap
+    // with a message
+    // code value of the status
+    // and data having the response obj
+    // returns the map with the status code
 
 
 

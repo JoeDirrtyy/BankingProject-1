@@ -71,4 +71,14 @@ public class AccountService {
 
     }
 
+    public ResponseEntity<?> getAllAccountsByCustomerId(Long customerId){
+      List <Account> accounts = (List<Account>) accountRepository.getAllAccountsByCustomerId(customerId);
+      if (accounts.isEmpty()){
+          throw new ResourceNotFoundException("Accounts not found");
+      }
+        return ResponseHandler.generateResponse("Successfully updated account data!", HttpStatus.OK, accounts);
+
+    }
+
+
 }

@@ -29,17 +29,14 @@ public class WithdrawalService {
 
 
 
-    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
+    public ResponseEntity<?> createWithdrawal(Withdrawal withdrawal, Long accountId) {
         // creating for a withdrawal for the account id
-        // setting the account id to the account
+        // finding the account by the id
+        // setting the withdrawal to that account id
         //if the find by id is equal to null throw an exception
         // if the with drawl is less than zero throw an exception
         // if the with drawl amount is more than the account balance throw an exception
-// else subtract the account balance and withdrawal amount and set the account balance to transaction
-        // save the withdrawal
-        // then return response handler
-      // Optional<Account> account  = accountRepository.findById(withdrawalId)
-        Account account = accountRepository.findById(withdrawalId).orElse(null);
+        Account account = accountRepository.findById(accountId).orElse(null);
         withdrawal.setAccount(account);
 
         if (account == null){
@@ -50,11 +47,14 @@ public class WithdrawalService {
             throw new ResourceNotFoundException("Cannot make Withdrawal larger that account balance");
         } else {
             Double accountBalance = account.getBalance();
+            // getting the balance amount
+
             Double withdrawalAmount = withdrawal.getAmount();
+            // getting the withdrawal amount
             Double transaction = accountBalance - withdrawalAmount;
-
+            // subtracting the account balance and the withdrawal amount
             account.setBalance(transaction);
-
+// setting the balance to the account balance - withdrawal amount
             withdrawalRepository.save(withdrawal);
             return ResponseHandler.generateResponse("Successfully created Withdrawal!", HttpStatus.OK, account);
         }
@@ -63,35 +63,36 @@ public class WithdrawalService {
     public ResponseEntity<?> updateWithdrawal(Withdrawal withdrawal, Long withdrawalId) {
 
         // creating for a withdrawal for the account id
-        // setting the payee id to the account
+        //finding the account withdrawal id
+        // setting the account id to the withdrawal
         //if the find by id is equal to null throw an exception
         // if the with drawl is less than zero throw an exception
         // if the with drawl amount is more than the account balance throw an exception
-// else subtract the account balance and withdrawal amount and set the account balance to transaction
-        // save the withdrawal
-        // then return response handler
+
         Account account = accountRepository.findById(withdrawal.getId()).orElse(null);
         withdrawal.setAccount(account);
         if (account == null){
-            throw new ResourceNotFoundException( "Error creating withdrawal");
+            throw new ResourceNotFoundException( "Error updating withdrawal");
         } else if (withdrawal.getAmount() < 0) {
             throw new ResourceNotFoundException("Cannot make negative withdrawal");
         } else if (account.getBalance() <= withdrawal.getAmount()) {
             throw new ResourceNotFoundException("Cannot make Withdrawal larger that account balance");
         }else {
 
-            Double oldWithdrawalAmount = withdrawalRepository.findById(withdrawalId).get().getAmount();
-
-            Double accountBalance = account.getBalance();
-
-            Double oldBalance = accountBalance + oldWithdrawalAmount;
+            Double oldWithdrawal = withdrawalRepository.findById(withdrawalId).get().getAmount();
+            // getting the withdrawal amount
+            Double balance = account.getBalance();
+            // getting the balance
+            Double oldBalance = balance + oldWithdrawal;
+            // getting the old balance before the withdrawal
             account.setBalance(oldBalance);
+            // setting the old balance
 
             Double withdrawalAmount = withdrawal.getAmount();
+            // getting amount of withdrawal
 
-            Double transaction = oldBalance - withdrawalAmount;
-            account.setBalance(transaction);
-
+            account.setBalance(oldBalance - withdrawalAmount);
+// subtracting the old balance and the new withdrawal amount
             withdrawalRepository.save(withdrawal);
             return ResponseHandler.generateResponse("Successfully updated Withdrawal!", HttpStatus.OK, account);
         }
@@ -125,6 +126,10 @@ public class WithdrawalService {
 
 
     public ResponseEntity<?> deleteWithdrawalById(Long withdrawalId) {
+        // find the withdrawal id
+        // if the withdrawal is equal to null
+        // throw exception
+        // else delete withdrawal id
         Withdrawal withdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);
         if (withdrawal == null) {
             throw new ResourceNotFoundException("error deleting withdrawal");

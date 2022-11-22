@@ -51,11 +51,13 @@ public class DepositService {
             throw new ResourceNotFoundException("Cannot make negative deposit");
         } else {
             Double accountBalance = account.getBalance();
+            // getting account balance
             Double depositAmount = deposit.getAmount();
-
+// getting deposit amount
             Double transaction = depositAmount + accountBalance;
-
+// adding deposit amount and account-balance
             account.setBalance(transaction);
+            // setting the balance to transaction
 
             depositRepository.save(deposit);
             return ResponseHandler.generateResponse("Successfully created deposit!", HttpStatus.OK, account);
@@ -101,17 +103,22 @@ public class DepositService {
         } else if (deposit.getAmount() < 0) {
             throw new ResourceNotFoundException("Cannot make negative deposit");
         } else {
-            Double oldDepositAmount = depositRepository.findById(depositId).get().getAmount();
-
-            Double accountBalance = account.getBalance();
-
-            Double oldBalance = accountBalance - oldDepositAmount;
+            Double oldAmount = depositRepository.findById(depositId).get().getAmount();
+            // getting old amount   100
+            Double balance = account.getBalance();
+            // getting the balance 10
+            Double oldBalance = balance - oldAmount;
+            // subtracting the balance and old amount of deposit   100 -10 =90
             account.setBalance(oldBalance);
+            //setting balance to old balance  90
+            Double newAmount = deposit.getAmount();
+            // getting new deposit amount  1
+            Double total = oldBalance + newAmount;
+            // 91
+            account.setBalance(total);
+            // set the new balance
 
-            Double depositAmount = deposit.getAmount();
-
-            Double transaction = oldBalance + depositAmount;
-            account.setBalance(transaction);
+            // getting the old amount by subtracting the deposit from the balance then adding the new deposit amount to the balance
 
             depositRepository.save(deposit);
             return ResponseHandler.generateResponse("Successfully updated deposit!", HttpStatus.OK, account);

@@ -43,9 +43,9 @@ public class AccountController {
         return accountService.deleteAccount(accountId);
     }
 
-//    @GetMapping("/searchaccount")
-//    public Iterable<Account> findAccountByName(@RequestParam("query") String query){
-//        return accountService.findAccountByName(query);
-//    }
+@GetMapping("/customers/{customerId}/accounts")
+public ResponseEntity<?> getAccountsByCustomerId(@PathVariable Long customerId) {
+return accountService.getAllAccountsByCustomerId(customerId);
 
+}
 }

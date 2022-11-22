@@ -16,9 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @ControllerAdvice
+// allows handling exceptions across the whole application in one global handling component.
 public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request) {
+    //an annotation used to handle the specific exceptions and sending the custom responses to the client.
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe) {
+       // ResponseEntity represents the whole HTTP response: status code, headers, and body.
 
         ErrorDetail errorDetail = new ErrorDetail();
 

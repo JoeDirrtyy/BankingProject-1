@@ -38,11 +38,10 @@ public class DepositService {
 
     public ResponseEntity<?> createDeposit(Deposit deposit, Long accountId) {
         // creating for a deposit for the account id
-        // setting the payee id to the account
+        // finding the account id
+        // setting the deposit that account id
         //if the find by id is equal to null throw an exception
         // if the deposit is less than zero throw an exception
-// else add the account balance and deposit amount and set the account balance to transaction
-        // then return response handler
         Account account = accountRepository.findById(accountId).orElse(null);
         deposit.setAccount(account);
         if (account == null){
@@ -91,11 +90,10 @@ public class DepositService {
     public ResponseEntity<?> updateDeposit(Deposit deposit, Long depositId) {
 
         // updating a deposit for the account id
-        // setting the payee id to the account
+        // finding the account id
+        // setting the deposit to the account
         //if the find by id is equal to null throw an exception
         // if the deposit is less than zero throw an exception
-// else add the account balance and deposit amount and set the account balance to transaction
-        // then return response handler
         Account account = accountRepository.findById(deposit.getId()).orElse(null);
         deposit.setAccount(account);
         if (account == null){

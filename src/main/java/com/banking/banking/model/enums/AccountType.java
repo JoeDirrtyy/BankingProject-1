@@ -3,7 +3,7 @@ package com.banking.banking.model.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum AccountType {
-
+//  used to map property names with JSON keys
 @JsonProperty("savings")
     SAVINGS("Savings"),
     @JsonProperty("checking")

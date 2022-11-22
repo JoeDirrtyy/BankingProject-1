@@ -19,6 +19,7 @@ public class Deposit {
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+    // many deposits to one account
     private Medium medium;
     private Double amount;
     private String description;
